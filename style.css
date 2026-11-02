@@ -1,0 +1,116 @@
+/* style.css - all the styling for the website.
+   To change the colors, edit the variables in section 1. */
+
+/* ===== 1. COLORS (change them here) ===== */
+:root {
+  --bg: #0a0f1e;      /* page background (dark navy) */
+  --panel: #131b33;   /* cards and boxes */
+  --border: #263356;  /* thin lines */
+  --text: #ffffff;    /* main text */
+  --muted: #aab5d0;   /* secondary text */
+  --blue: #5aa9ff;    /* blue accent */
+  --orange: #ff8c42;  /* orange accent (used sparingly) */
+}
+
+/* ===== 2. BASIC PAGE ===== */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }  /* makes the "hidden" attribute always work */
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.6;
+}
+section, .wrap { max-width: 1000px; margin: 0 auto; }
+section { padding: 60px 20px; }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 12px; }
+a { color: var(--blue); }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.empty { color: var(--muted); font-style: italic; }
+.meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 8px; }
+
+/* ===== 3. NAVIGATION AND HERO ===== */
+.navbar {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  padding: 14px 20px; border-bottom: 1px solid var(--border);
+}
+.navbar a { color: var(--muted); text-decoration: none; margin-left: 18px; }
+.navbar a:hover { color: var(--orange); }
+.logo { font-weight: bold; }
+
+.hero { position: relative; overflow: hidden; padding: 90px 20px; }
+.hero h1 { font-size: clamp(2.2rem, 7vw, 3.8rem); }
+.hero p { max-width: 600px; }
+.subtitle { color: var(--blue); font-size: 1.25rem; }
+/* The only decoration: a dashed orbit with one lonely orange dot */
+.hero::before {
+  content: ""; position: absolute; top: -60px; right: -120px;
+  width: 420px; height: 420px; border: 1px dashed var(--blue);
+  border-radius: 50%; opacity: 0.4;
+}
+.hero::after {
+  content: ""; position: absolute; top: 143px; right: 293px;
+  width: 14px; height: 14px; background: var(--orange); border-radius: 50%;
+}
+
+/* ===== 4. BUTTONS, CARDS AND PANELS ===== */
+button, .button {
+  display: inline-block; background: var(--orange); color: #000;
+  border: 1px solid var(--orange); border-radius: 6px; padding: 10px 20px;
+  font-size: 1rem; font-weight: bold; text-decoration: none; cursor: pointer;
+}
+button:hover, .button:hover { filter: brightness(1.1); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+.secondary { background: transparent; color: var(--text); border-color: var(--blue); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.card, .panel {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px;
+}
+.card h3 { margin-top: 14px; }
+.card p { margin: 4px 0; color: var(--muted); }
+.card button { width: 100%; margin-top: 12px; }
+
+/* Image box: shows a placeholder, and the picture on top of it once it loads */
+.image-box {
+  position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9;
+  background: #0d1428; border: 1px dashed var(--border); border-radius: 8px;
+  color: var(--muted); font-size: 0.9rem; overflow: hidden;
+}
+.image-box img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; background: #0d1428;
+}
+
+/* ===== 5. STORY AND TIMELINE TOUR ===== */
+.story-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; margin: 24px 0; }
+figure { margin: 0; }
+figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.tab { background: transparent; color: var(--muted); border-color: var(--border); font-weight: normal; padding: 6px 12px; }
+.tab.active { color: var(--text); border-color: var(--orange); }
+.progress { height: 6px; margin-bottom: 16px; background: var(--border); border-radius: 3px; }
+#progress-bar { width: 0; height: 100%; background: var(--orange); border-radius: 3px; transition: width 0.3s; }
+.fact-label { color: var(--blue); font-weight: bold; font-size: 0.9rem; }
+.source { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 10px; }
+.nav-buttons { display: flex; justify-content: space-between; margin-top: 16px; }
+#sources dt { margin-top: 10px; color: var(--blue); font-weight: bold; }
+#sources dd { margin: 0; color: var(--muted); }
+
+/* ===== 6. QUIZ ===== */
+.option { display: block; margin: 8px 0; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.option:hover { border-color: var(--blue); }
+.correct { color: #5fd38d; font-weight: bold; }
+.wrong { color: var(--orange); font-weight: bold; }
+
+/* ===== 7. FOOTER AND SMALL SCREENS ===== */
+footer { padding: 30px 20px; text-align: center; color: var(--muted); border-top: 1px solid var(--border); }
+@media (max-width: 700px) {
+  .story-layout { grid-template-columns: 1fr; }
+  .hero { padding: 60px 20px; }
+  .hero::before, .hero::after { display: none; }  /* hide the orbit on phones */
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } #progress-bar { transition: none; } }

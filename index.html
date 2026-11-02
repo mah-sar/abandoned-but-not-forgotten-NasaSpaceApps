@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abandoned but Not Forgotten</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <span class="logo">Abandoned but Not Forgotten</span>
+    <div><a href="#home">Home</a> <a href="#explore">Explore</a> <a href="#quiz">Quiz</a> <a href="#about">About</a></div>
+  </nav>
+
+  <!-- A. HOME / HERO: edit the title and intro text here -->
+  <header id="home" class="hero">
+    <div class="wrap">
+      <h1>Abandoned but Not Forgotten</h1>
+      <p class="subtitle">The stories of NASA's forgotten equipment across the Moon and Mars.</p>
+      <p>Some spacecraft, instruments and equipment stay behind on the Moon and Mars when their missions end. This website follows selected objects through three steps: the mission, the discovery, and where they are now.</p>
+      <a class="button" href="#explore">Explore Their Stories</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- B. EXPLORE: the cards are created by script.js from data.js -->
+    <section id="explore">
+      <h2>Explore the Objects</h2>
+      <p>Choose an object to follow its story.</p>
+      <div id="cards" class="grid"></div>
+    </section>
+
+    <!-- C, D and E. STORY, TIMELINE TOUR AND SOURCES (hidden until a card is clicked) -->
+    <section id="story" hidden>
+      <a href="#explore">&larr; Back to all objects</a>
+      <h2 id="story-title"></h2>
+      <p id="story-description"></p>
+
+      <div class="story-layout">
+        <figure id="story-image"></figure>
+
+        <!-- The tour: tabs, progress indicator, step content, Previous / Next -->
+        <div class="panel">
+          <div id="step-tabs" class="tabs"></div>
+          <p id="progress-text" class="meta"></p>
+          <div class="progress"><div id="progress-bar"></div></div>
+          <div id="step-content"></div>
+          <div class="nav-buttons">
+            <button id="prev-btn" class="secondary" onclick="goToStep(currentStep - 1)">Previous</button>
+            <button id="next-btn" onclick="goToStep(currentStep + 1)">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="sources" class="panel">
+        <h3>Sources and Credits</h3>
+        <dl id="source-list"></dl>
+      </div>
+    </section>
+
+    <!-- QUIZ: built by script.js from quizQuestions in data.js -->
+    <section id="quiz">
+      <h2>Test Your Knowledge</h2>
+      <div id="quiz-box" class="panel"></div>
+    </section>
+
+    <!-- F. ABOUT THE PROJECT -->
+    <section id="about">
+      <h2>About the Project</h2>
+      <p><strong>The challenge.</strong> "Abandoned but Not Forgotten" is a NASA Space Apps challenge about telling the stories of NASA equipment, devices and spacecraft left behind on the Moon or Mars.</p>
+      <p><strong>Why it is interesting.</strong> Every object has a story: why it was sent, what it achieved, and where it is today. Scientific details will be added after NASA data collection.</p>
+      <p><strong>What we aim to do.</strong> We want to present these stories clearly, give a source for every fact, and let visitors check what they learned with a short quiz.</p>
+    </section>
+  </main>
+
+  <footer>A student project for NASA Space Apps 2026. This is not an official NASA website.</footer>
+
+  <!-- data.js must come first: script.js reads the information from it -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
