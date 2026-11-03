@@ -94,11 +94,13 @@ figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 .tab.active { color: var(--text); border-color: var(--orange); }
 .progress { height: 6px; margin-bottom: 16px; background: var(--border); border-radius: 3px; }
 #progress-bar { width: 0; height: 100%; background: var(--orange); border-radius: 3px; transition: width 0.3s; }
+#step-content p, #story-description { white-space: pre-line; }  /* keeps the paragraphs typed with \n\n in data.js */
 .fact-label { color: var(--blue); font-weight: bold; font-size: 0.9rem; }
 .source { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 10px; }
 .nav-buttons { display: flex; justify-content: space-between; margin-top: 16px; }
 #sources dt { margin-top: 10px; color: var(--blue); font-weight: bold; }
 #sources dd { margin: 0; color: var(--muted); }
+.source, #sources dd { overflow-wrap: anywhere; }  /* long web addresses wrap on phones */
 
 /* ===== 6. QUIZ ===== */
 .option { display: block; margin: 8px 0; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }

@@ -6,15 +6,32 @@ let currentObject = 0;  // which object's story is open
 let currentStep = 0;    // 0 = The Mission, 1 = The Discovery, 2 = Where Is It Now?
 
 // ===== Helpers =====
-// Returns the text, or a grey placeholder message when the text is empty.
+// Makes text safe to put on the page: < > & " ' are turned into harmless characters,
+// so text from data.js is always shown as plain text and never runs as HTML or JavaScript.
+function esc(text) {
+  return String(text)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+// Returns the (safe) text, or a grey placeholder message when the text is empty.
 function show(value, fallback) {
-  return value || `<span class="empty">${fallback || EMPTY_MESSAGE}</span>`;
+  return value ? esc(value) : `<span class="empty">${fallback || EMPTY_MESSAGE}</span>`;
+}
+
+// Shows a source. Text starting with https:// becomes a clickable link that opens in a new tab.
+// Anything else (for example an image credit) is shown as plain text.
+function sourceLink(text, fallback) {
+  if (!/^https?:\/\//.test(text)) {
+    return show(text, fallback);
+  }
+  return `<a href="${esc(text)}" target="_blank" rel="noopener noreferrer">${esc(text)}</a>`;
 }
 
 // Builds an image box. With no image (or a missing file) the placeholder text stays visible.
 function imageBox(obj) {
   const img = obj.image
-    ? `<img src="assets/${obj.image}" alt="${obj.imageCaption || obj.name}" onerror="this.style.display='none'">`
+    ? `<img src="assets/${esc(obj.image)}" alt="${esc(obj.imageCaption || obj.name)}" onerror="this.style.display='none'">`
     : "";
   return `<div class="image-box">Image coming soon${img}</div>`;
 }
@@ -82,7 +99,7 @@ function goToStep(index) {
   step.facts.forEach(function (fact) {
     html += `<p><span class="fact-label">${fact[0]}</span><br>${show(fact[1])}</p>`;
   });
-  html += `<p class="source">Source: ${show(step.source, "Source to be added.")}</p>`;
+  html += `<p class="source">Source: ${sourceLink(step.source, "Source to be added.")}</p>`;
   document.getElementById("step-content").innerHTML = html;
 
   // Progress indicator and Previous / Next buttons
@@ -102,7 +119,7 @@ function buildSources(obj) {
   ];
   let html = "";
   rows.forEach(function (row) {
-    html += `<dt>${row[0]}</dt><dd>${show(row[1], "To be added.")}</dd>`;
+    html += `<dt>${row[0]}</dt><dd>${sourceLink(row[1], "To be added.")}</dd>`;
   });
   document.getElementById("source-list").innerHTML = html;
 }
@@ -131,12 +148,12 @@ function showQuestion() {
   const q = quizQuestions[quizIndex];
   let options = "";
   q.options.forEach(function (text, i) {
-    options += `<label class="option"><input type="radio" name="answer" value="${i + 1}"> ${text}</label>`;
+    options += `<label class="option"><input type="radio" name="answer" value="${i + 1}"> ${esc(text)}</label>`;
   });
   box.innerHTML = `
     <p class="meta">Question ${quizIndex + 1} of ${quizQuestions.length} | Score: <span id="score">${score}</span></p>
-    <h3>${q.question}</h3>
-    ${q.object ? `<p class="meta">Related object: ${q.object}</p>` : ""}
+    <h3>${esc(q.question)}</h3>
+    ${q.object ? `<p class="meta">Related object: ${esc(q.object)}</p>` : ""}
     ${options}
     <p id="feedback"></p>
     <button id="submit-btn" onclick="submitAnswer()">Submit Answer</button>
