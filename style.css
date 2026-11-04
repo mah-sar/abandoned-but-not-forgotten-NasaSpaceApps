@@ -8,8 +8,9 @@
   --border: #263356;  /* thin lines */
   --text: #ffffff;    /* main text */
   --muted: #aab5d0;   /* secondary text */
-  --blue: #5aa9ff;    /* blue accent */
-  --orange: #ff8c42;  /* orange accent (used sparingly) */
+  --blue: #5aa9ff;    /* blue accent (step 1) */
+  --orange: #ff8c42;  /* orange accent (step 2) */
+  --ice: #dbe6ff;     /* pale accent (step 3) */
 }
 
 /* ===== 2. BASIC PAGE ===== */
@@ -25,6 +26,7 @@ body {
 }
 section, .wrap { max-width: 1000px; margin: 0 auto; }
 section { padding: 60px 20px; }
+.wrap { padding: 0 20px; }
 h1, h2, h3 { line-height: 1.2; margin: 0 0 12px; }
 a { color: var(--blue); }
 :focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
@@ -40,11 +42,11 @@ a { color: var(--blue); }
 .navbar a:hover { color: var(--orange); }
 .logo { font-weight: bold; }
 
-.hero { position: relative; overflow: hidden; padding: 90px 20px; }
+.hero { position: relative; overflow: hidden; padding: 90px 0 60px; }
 .hero h1 { font-size: clamp(2.2rem, 7vw, 3.8rem); }
 .hero p { max-width: 600px; }
 .subtitle { color: var(--blue); font-size: 1.25rem; }
-/* The only decoration: a dashed orbit with one lonely orange dot */
+/* A dashed orbit with one lonely orange dot */
 .hero::before {
   content: ""; position: absolute; top: -60px; right: -120px;
   width: 420px; height: 420px; border: 1px dashed var(--blue);
@@ -54,6 +56,12 @@ a { color: var(--blue); }
   content: ""; position: absolute; top: 143px; right: 293px;
   width: 14px; height: 14px; background: var(--orange); border-radius: 50%;
 }
+/* Photo strip: small cropped photos from the objects. Click one to open its story. */
+.strip-label { margin: 44px 0 10px; color: var(--muted); font-size: 0.9rem; }
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.strip-item { height: 120px; padding: 0; overflow: hidden; background: var(--panel); border: 1px solid var(--border); }
+.strip-item img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.75; }
+.strip-item:hover img { opacity: 1; }
 
 /* ===== 4. BUTTONS, CARDS AND PANELS ===== */
 button, .button {
@@ -65,39 +73,81 @@ button:hover, .button:hover { filter: brightness(1.1); }
 button:disabled { opacity: 0.4; cursor: not-allowed; }
 .secondary { background: transparent; color: var(--text); border-color: var(--blue); }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
 .card, .panel {
   background: var(--panel); border: 1px solid var(--border);
   border-radius: 10px; padding: 16px;
 }
-.card h3 { margin-top: 14px; }
-.card p { margin: 4px 0; color: var(--muted); }
-.card button { width: 100%; margin-top: 12px; }
+/* Small rounded labels ("chips"), for example Moon / Mars, the mission and the year */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.chip {
+  display: inline-block; padding: 3px 12px; border: 1px solid var(--border); border-radius: 999px;
+  background: rgba(10, 15, 30, 0.85); color: var(--muted); font-size: 0.85rem;
+}
+.chip-target { color: var(--orange); border-color: var(--orange); }
 
-/* Image box: shows a placeholder, and the picture on top of it once it loads */
+/* Image box: shows a placeholder, and the photo on top of it once it loads */
 .image-box {
   position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9;
   background: #0d1428; border: 1px dashed var(--border); border-radius: 8px;
   color: var(--muted); font-size: 0.9rem; overflow: hidden;
 }
 .image-box img {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: contain; background: #0d1428;
+  position: absolute; inset: 0; width: 100%; height: 100%; background: #0d1428;
+  object-fit: cover; object-position: center 35%;  /* fills the box; change 35% to move the crop up or down */
 }
 
+/* Explore cards: a big photo on top, then the text */
+.grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+.card { flex: 0 1 300px; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+.card:hover { border-color: var(--blue); }
+.card-image { position: relative; display: block; color: var(--muted); text-decoration: none; }
+.card .image-box { aspect-ratio: 3 / 2; border: 0; border-radius: 0; }  /* same photo height on every card */
+.card-image:hover img { filter: brightness(1.1); }
+.card-image .chip { position: absolute; top: 10px; left: 10px; }
+.card-body { display: flex; flex: 1; flex-direction: column; padding: 16px; }
+.card h3 { margin: 0 0 4px; }
+.card-meta { margin: 0 0 10px; color: var(--blue); font-size: 0.9rem; }
+.card-text {  /* short description: shows at most 4 lines */
+  margin: 0 0 16px; color: var(--muted); font-size: 0.95rem;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card button { width: 100%; margin-top: auto; }
+
 /* ===== 5. STORY AND TIMELINE TOUR ===== */
-.story-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; margin: 24px 0; }
 figure { margin: 0; }
 figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
-.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-.tab { background: transparent; color: var(--muted); border-color: var(--border); font-weight: normal; padding: 6px 12px; }
-.tab.active { color: var(--text); border-color: var(--orange); }
+#story-image { margin-top: 16px; }
+#story-image .image-box { width: 100%; aspect-ratio: 2 / 1; }  /* large photo at the top of the story */
+#story h2 { margin-top: 24px; font-size: 2rem; }
+#story-description { max-width: 70ch; font-size: 1.05rem; }
+
+/* The tour: each stage has its own accent color */
+.step-0 { --accent: var(--blue); }
+.step-1 { --accent: var(--orange); }
+.step-2 { --accent: var(--ice); }
+.tour { margin: 28px 0; border-top: 4px solid var(--accent); }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.tab {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px; text-align: left;
+  background: transparent; color: var(--muted); border-color: var(--border); font-weight: normal;
+}
+.tab .num {
+  flex: none; display: grid; place-items: center; width: 26px; height: 26px;
+  border: 1px solid var(--accent); border-radius: 50%; color: var(--accent); font-size: 0.85rem; font-weight: bold;
+}
+.tab.active { color: var(--text); border-color: var(--accent); }
+.tab.active .num, .tab.done .num { background: var(--accent); color: #000; }
 .progress { height: 6px; margin-bottom: 16px; background: var(--border); border-radius: 3px; }
-#progress-bar { width: 0; height: 100%; background: var(--orange); border-radius: 3px; transition: width 0.3s; }
+#progress-bar { width: 0; height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; }
 #step-content p, #story-description { white-space: pre-line; }  /* keeps the paragraphs typed with \n\n in data.js */
-.fact-label { color: var(--blue); font-weight: bold; font-size: 0.9rem; }
+#step-content p { max-width: 65ch; line-height: 1.7; }
+.fact-label { color: var(--accent); font-weight: bold; font-size: 0.9rem; }
 .source { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 10px; }
 .nav-buttons { display: flex; justify-content: space-between; margin-top: 16px; }
+.more-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 400px)); gap: 16px; }
+.more-grid .image-box { aspect-ratio: 3 / 2; }
+#story-more:empty { display: none; }
+#sources { margin-top: 28px; }
 #sources dt { margin-top: 10px; color: var(--blue); font-weight: bold; }
 #sources dd { margin: 0; color: var(--muted); }
 .source, #sources dd { overflow-wrap: anywhere; }  /* long web addresses wrap on phones */
@@ -111,8 +161,10 @@ figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 /* ===== 7. FOOTER AND SMALL SCREENS ===== */
 footer { padding: 30px 20px; text-align: center; color: var(--muted); border-top: 1px solid var(--border); }
 @media (max-width: 700px) {
-  .story-layout { grid-template-columns: 1fr; }
-  .hero { padding: 60px 20px; }
+  .card { flex-basis: 100%; }
+  .hero { padding: 60px 0 40px; }
+  #story-image .image-box { aspect-ratio: 4 / 3; }
   .hero::before, .hero::after { display: none; }  /* hide the orbit on phones */
+  .tab { flex-direction: column; gap: 4px; padding: 8px 4px; text-align: center; font-size: 0.8rem; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } #progress-bar { transition: none; } }

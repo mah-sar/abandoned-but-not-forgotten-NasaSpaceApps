@@ -9,6 +9,8 @@
 //  6. Images: put the file in the assets/ folder and type ONLY its file name,
 //     e.g.   image: "my-picture.jpg"
 //  7. Sources: type the full web address (https://...). It becomes a clickable link.
+//  8. moreImages (optional): extra photos shown under the story. Each one needs
+//     image (file name), caption, credit and source. Use moreImages: [] for none.
 
 const objects = [
   // ---------- OBJECT 1 ----------
@@ -27,10 +29,16 @@ const objects = [
     location: "Mare Tranquillitatis (Sea of Tranquility), at the Apollo 11 landing site. Approximate landing coordinates: 0.67° N, 23.47° E.",
     stillThere: "Yes",
     status: "The descent stage was left on the lunar surface after the ascent stage departed. NASA's Lunar Reconnaissance Orbiter later photographed the landing site, where the descent stage and astronaut tracks are visible. The stage is no longer operational. Its current physical condition has not been directly inspected.",
-    // Image (TODO: save apollo11-descent-stage.jpg in assets/, then type that file name here)
-    image: "labeled_version.jpeg",
+    // Image (the file is in assets/)
+    image: "apollo-11.jpeg",
     imageCaption: "NASA's Lunar Reconnaissance Orbiter image of the Apollo 11 landing site, showing the descent stage and astronaut tracks.",
     imageCredit: "NASA/Goddard Space Flight Center/Arizona State University",
+    moreImages: [
+      { image: "apollo11.jpg",
+        caption: "The Apollo 11 Lunar Module Eagle on the lunar surface with an astronaut beside it. Both stages are still joined in this photograph; the descent stage is the lower section.",
+        credit: "NASA",
+        source: "" }   // TODO: add the NASA page this photo came from
+    ],
     sources: {
       mission: "https://www.nasa.gov/history/apollo-11-mission-overview/",
       discovery: "https://nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html",
@@ -55,10 +63,16 @@ const objects = [
     location: "Southeastern Oceanus Procellarum (Ocean of Storms), on the Moon. Approximate landing coordinates: 3.01° S, 336.66° E.",
     stillThere: "Partly",
     status: "The remaining main lander is still at its lunar landing site. However, its television camera and several other components were removed by Apollo 12 astronauts and returned to Earth. Its current physical condition has not been directly inspected.",
-    // Image (TODO: save surveyor-3-apollo12.jpg in assets/, then type that file name here)
-    image: "",
+    // Image (the file is in assets/)
+    image: "surveyor.jpg",
     imageCaption: "Apollo 12 astronaut Charles Conrad examines Surveyor 3's television camera before removing it. The robotic lander is in the foreground.",
     imageCredit: "NASA",
+    moreImages: [
+      { image: "surveyor-3.jpg",
+        caption: "The Surveyor 3 lander on the lunar surface.",
+        credit: "NASA",
+        source: "" }   // TODO: add the NASA page this photo came from
+    ],
     sources: {
       mission: "https://science.nasa.gov/mission/surveyor-3/",
       discovery: "https://science.nasa.gov/resource/apollo-12-and-surveyor-3/",
@@ -87,6 +101,7 @@ const objects = [
     image: "",
     imageCaption: "The Apollo 15 Lunar Roving Vehicle at its final parked position after the third lunar excursion.",
     imageCredit: "NASA",
+    moreImages: [],
     sources: {
       mission: "https://www.nasa.gov/specials/apollo50th/missions.html",
       discovery: "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html",
@@ -111,10 +126,11 @@ const objects = [
     location: "Chryse Planitia (Golden Plain), Mars.",
     stillThere: "Yes, at its last known landing site",
     status: "Viking 1 operated for more than six years. Its communications ended in November 1982 after a faulty command interrupted contact with Earth. Attempts to restore communication were unsuccessful. Its present physical condition has not been directly verified.",
-    // Image (TODO: save viking1-first-mars-photo.jpg in assets/, then type that file name here)
-    image: "",
+    // Image (the file is in assets/)
+    image: "viking-1.webp",
     imageCaption: "The first photograph ever taken from the surface of Mars, captured by Viking 1 shortly after landing. This is a view from the lander, not a photograph of the lander itself.",
     imageCredit: "NASA/JPL",
+    moreImages: [],
     sources: {
       mission: "https://science.nasa.gov/mission/viking-1/",
       discovery: "https://science.nasa.gov/astrobiology/missions/viking-project/",
@@ -139,10 +155,11 @@ const objects = [
     location: "Perseverance Valley, on the western rim of Endeavour Crater, Mars.",
     stillThere: "Yes, at its last known location",
     status: "A severe Mars-wide dust storm reduced sunlight reaching the rover's solar panels in 2018. Its last communication was received on June 10, 2018. After more than a thousand commands to restore contact, NASA officially declared the mission over on February 13, 2019. Its present physical condition has not been directly verified.",
-    // Image (TODO: save opportunity-rover.jpg in assets/, then type that file name here)
-    image: "",
+    // Image (the file is in assets/)
+    image: "opportunity.jpg",
     imageCaption: "Opportunity's self-portrait at Perseverance Valley on the slopes of Endeavour Crater, taken during its mission on Mars.",
     imageCredit: "NASA/JPL-Caltech",
+    moreImages: [],
     sources: {
       mission: "https://science.nasa.gov/mission/mer-opportunity/",
       discovery: "https://science.nasa.gov/resource/meridiani-planum-2/",

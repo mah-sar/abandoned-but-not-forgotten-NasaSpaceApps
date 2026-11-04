@@ -29,30 +29,66 @@ function sourceLink(text, fallback) {
 }
 
 // Builds an image box. With no image (or a missing file) the placeholder text stays visible.
-function imageBox(obj) {
-  const img = obj.image
-    ? `<img src="assets/${esc(obj.image)}" alt="${esc(obj.imageCaption || obj.name)}" onerror="this.style.display='none'">`
+// file = file name inside assets/, alt = a description of the photo for screen readers.
+function imageBox(file, alt) {
+  const img = file
+    ? `<img src="assets/${esc(file)}" alt="${esc(alt)}" onerror="this.style.display='none'">`
     : "";
   return `<div class="image-box">Image coming soon${img}</div>`;
+}
+
+// A small rounded label, for example "Moon" or "1969". Empty text gives no chip.
+function chip(text, extraClass) {
+  return text ? `<span class="chip ${extraClass || ""}">${esc(text)}</span>` : "";
+}
+
+// The first four-digit number in the mission date: "July 20, 1969 (Moon landing)" gives "1969".
+function getYear(obj) {
+  const match = (obj.missionDate || "").match(/\d{4}/);
+  return match ? match[0] : "";
+}
+
+// ===== A. Hero photo strip: one small photo for every object that has an image =====
+function buildStrip() {
+  let html = "";
+  objects.forEach(function (obj, i) {
+    if (obj.image) {
+      html += `
+        <button class="strip-item" onclick="openStory(${i})" aria-label="Open the story of ${esc(obj.name)}" title="${esc(obj.name)}">
+          <img src="assets/${esc(obj.image)}" alt="${esc(obj.imageCaption || obj.name)}" onerror="this.parentNode.style.display='none'">
+        </button>`;
+    }
+  });
+  document.getElementById("hero-strip").innerHTML = html;
+  document.getElementById("strip-label").hidden = (html === "");
 }
 
 // ===== B. Explore cards (one card for each object in data.js) =====
 function buildCards() {
   let html = "";
   objects.forEach(function (obj, i) {
+    const label = obj.name || "Object " + (i + 1);
+    const year = getYear(obj);
+    const firstParagraph = (obj.description || "").split("\n\n")[0];
     html += `
       <article class="card">
-        ${imageBox(obj)}
-        <h3>${show(obj.name, "Object " + (i + 1))}</h3>
-        <p>Mission: ${show(obj.missionName, "To be added")}</p>
-        <p>Date: ${show(obj.missionDate, "To be added")}</p>
-        <button onclick="openStory(${i})">Discover Story</button>
+        <a class="card-image" href="#story" onclick="openStory(${i}); return false;" aria-label="Explore the story of ${esc(label)}">
+          ${imageBox(obj.image, obj.imageCaption || label)}
+          ${chip(obj.target, "chip-target")}
+        </a>
+        <div class="card-body">
+          <h3>${show(obj.name, "Object " + (i + 1))}</h3>
+          <p class="card-meta">${show(obj.missionName, "Mission name to be added")}${year ? " · " + year : ""}</p>
+          <p class="card-text">${show(firstParagraph, "Short description to be added.")}</p>
+          <button onclick="openStory(${i})">Explore story</button>
+        </div>
       </article>`;
   });
   document.getElementById("cards").innerHTML = html;
 }
 
 // ===== C. Object story =====
+
 // The three stages of a story. Edit the labels here if you want different wording.
 function getSteps(obj) {
   return [
@@ -65,20 +101,46 @@ function getSteps(obj) {
   ];
 }
 
-// Called when a "Discover Story" button is clicked.
+// Called when a card, a card photo or a hero photo is clicked.
 function openStory(index) {
   const obj = objects[index];
+  const label = obj.name || "Object " + (index + 1);
   currentObject = index;
   document.getElementById("story").hidden = false;
-  document.getElementById("story-title").innerHTML = show(obj.name, "Object " + (index + 1));
-  document.getElementById("story-description").innerHTML = show(obj.description);
+
+  // Large photo at the top, with its caption and credit
   document.getElementById("story-image").innerHTML = `
-    ${imageBox(obj)}
+    ${imageBox(obj.image, obj.imageCaption || label)}
     <figcaption>${show(obj.imageCaption, "Image caption to be added.")}<br>
     Credit: ${show(obj.imageCredit, "Image credit to be added.")}</figcaption>`;
+
+  // Title, quick-fact chips (all taken from data.js) and the short description
+  const stillThere = obj.stillThere ? "Still there: " + obj.stillThere.split(",")[0] : "";
+  document.getElementById("story-title").innerHTML = show(obj.name, "Object " + (index + 1));
+  document.getElementById("story-chips").innerHTML =
+    chip(obj.target, "chip-target") + chip(obj.missionName) + chip(getYear(obj)) + chip(stillThere);
+  document.getElementById("story-description").innerHTML = show(obj.description);
+
+  buildMorePhotos(obj);
   buildSources(obj);
   goToStep(0);
   document.getElementById("story").scrollIntoView();
+}
+
+// Optional extra photos (moreImages in data.js), shown under the tour.
+function buildMorePhotos(obj) {
+  const extras = obj.moreImages || [];
+  let html = "";
+  extras.forEach(function (m) {
+    html += `
+      <figure>
+        ${imageBox(m.image, m.caption || obj.name)}
+        <figcaption>${show(m.caption, "Image caption to be added.")}<br>
+        Credit: ${show(m.credit, "Image credit to be added.")}</figcaption>
+      </figure>`;
+  });
+  document.getElementById("story-more").innerHTML =
+    extras.length ? `<h3>More photos</h3><div class="more-grid">${html}</div>` : "";
 }
 
 // ===== D. Timeline tour: shows one stage (0, 1 or 2). Previous / Next call this too. =====
@@ -87,10 +149,14 @@ function goToStep(index) {
   const steps = getSteps(objects[currentObject]);
   const step = steps[index];
 
-  // Clickable labels for the three stages
+  // The tour panel gets a class (step-0, step-1 or step-2) that sets the accent color of this stage
+  document.getElementById("tour").className = "panel tour step-" + index;
+
+  // Three numbered step buttons: the current one is highlighted, earlier ones are marked "done"
   let tabs = "";
   steps.forEach(function (s, i) {
-    tabs += `<button class="tab ${i === index ? "active" : ""}" onclick="goToStep(${i})">${i + 1}. ${s.title}</button>`;
+    const state = (i === index) ? "active" : (i < index ? "done" : "");
+    tabs += `<button class="tab step-${i} ${state}" onclick="goToStep(${i})"><span class="num">${i + 1}</span>${s.title}</button>`;
   });
   document.getElementById("step-tabs").innerHTML = tabs;
 
@@ -117,6 +183,9 @@ function buildSources(obj) {
     ["NASA source: Where Is It Now?", s.location], ["Research references", s.research],
     ["Image source", s.image], ["Image credit", obj.imageCredit]
   ];
+  (obj.moreImages || []).forEach(function (m, i) {
+    rows.push(["Extra photo " + (i + 1) + " credit", m.credit], ["Extra photo " + (i + 1) + " source", m.source]);
+  });
   let html = "";
   rows.forEach(function (row) {
     html += `<dt>${row[0]}</dt><dd>${sourceLink(row[1], "To be added.")}</dd>`;
@@ -183,6 +252,7 @@ function submitAnswer() {
 function nextQuestion() { quizIndex = quizIndex + 1; showQuestion(); }
 function restartQuiz() { quizIndex = 0; score = 0; showQuestion(); }
 
-// ===== Start: build the cards and the quiz when the page loads =====
+// ===== Start: build the cards, the hero photo strip and the quiz when the page loads =====
 buildCards();
+buildStrip();
 showQuestion();
