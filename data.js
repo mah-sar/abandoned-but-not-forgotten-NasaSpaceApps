@@ -11,6 +11,10 @@
 //  7. Sources: type the full web address (https://...). It becomes a clickable link.
 //  8. moreImages (optional): extra photos shown under the story. Each one needs
 //     image (file name), caption, credit and source. Use moreImages: [] for none.
+//  9. imagePosition (optional): moves the crop of the main photo, e.g. "center 60%".
+// 10. timeline (Stage 4): a list of events. Each event has date, title, text and (optional)
+//     key: true to highlight an important moment. timelineLocation, timelineHighlight and
+//     timelineNote are optional short texts. sources.timeline is a list of NASA links.
 
 const objects = [
   // ---------- OBJECT 1 ----------
@@ -39,12 +43,27 @@ const objects = [
         credit: "NASA",
         source: "" }   // TODO: add the NASA page this photo came from
     ],
+    // Timeline tab (Stage 4): historical events in date order. key: true highlights a moment.
+    timelineLocation: "Moon — Sea of Tranquility",
+    timeline: [
+      { date: "July 16, 1969", title: "Apollo 11 launches",
+        text: "Apollo 11 launches from Kennedy Space Center aboard a Saturn V rocket." },
+      { date: "July 20, 1969", title: "Eagle lands on the Moon", key: true,
+        text: "The Eagle Lunar Module lands in the Sea of Tranquility, carrying Neil Armstrong and Buzz Aldrin." },
+      { date: "July 21, 1969", title: "First lunar surface exploration",
+        text: "Armstrong and Aldrin complete their lunar surface activities and deploy scientific equipment." },
+      { date: "July 21, 1969", title: "The descent stage is left behind", key: true,
+        text: "The Lunar Module's ascent stage lifts off to return the astronauts to lunar orbit. The descent stage, including its landing legs, remains on the Moon." }
+    ],
+    timelineHighlight: "",
+    timelineNote: "Dates follow NASA's mission timeline, which uses GMT: the landing is recorded on July 20, and the first lunar surface activity and the ascent-stage liftoff on July 21.",
     sources: {
       mission: "https://www.nasa.gov/history/apollo-11-mission-overview/",
       discovery: "https://nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html",
       location: "https://science.nasa.gov/resource/apollo-11-landing-site/",
       research: "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo11info.html",
-      image: "https://science.nasa.gov/resource/apollo-11-landing-site/"
+      image: "https://science.nasa.gov/resource/apollo-11-landing-site/",
+      timeline: ["https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_11i_Timeline.htm", "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html", "https://www.nasa.gov/history/apollo-11-mission-overview/"]
     }
   },
   // ---------- OBJECT 2 ----------
@@ -73,12 +92,26 @@ const objects = [
         credit: "NASA",
         source: "" }   // TODO: add the NASA page this photo came from
     ],
+    timelineLocation: "Moon — Oceanus Procellarum (Ocean of Storms)",
+    timeline: [
+      { date: "April 17, 1967", title: "Launch",
+        text: "Surveyor 3 launches from Cape Canaveral to test whether a spacecraft can make a soft landing on the Moon." },
+      { date: "April 20, 1967", title: "Lunar landing", key: true,
+        text: "Surveyor 3 successfully lands on the Moon after bouncing twice during its descent." },
+      { date: "May 4, 1967", title: "Last communication",
+        text: "NASA receives the last contact from Surveyor 3 after it has sent thousands of television images and carried out surface experiments." },
+      { date: "November 19–20, 1969", title: "Apollo 12 visits Surveyor 3", key: true,
+        text: "Apollo 12 astronauts Charles Conrad and Alan Bean visit the inactive lander. They retrieve its television camera, soil scoop, and other parts to bring back to Earth for examination." }
+    ],
+    timelineHighlight: "",
+    timelineNote: "NASA sources give November 19 or November 20 for the Apollo 12 visit, depending on the source and the time convention.",
     sources: {
       mission: "https://science.nasa.gov/mission/surveyor-3/",
       discovery: "https://science.nasa.gov/resource/apollo-12-and-surveyor-3/",
       location: "https://nssdc.gsfc.nasa.gov/planetary/lunar/surveyor.html",
       research: "https://science.nasa.gov/mission/surveyor-3/",
-      image: "https://science.nasa.gov/resource/apollo-12-and-surveyor-3/"
+      image: "https://science.nasa.gov/resource/apollo-12-and-surveyor-3/",
+      timeline: ["https://science.nasa.gov/mission/surveyor-3/", "https://science.nasa.gov/resource/apollo-12-and-surveyor-3/", "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_12i_Timeline.htm"]
     }
   },
   // ---------- OBJECT 3 ----------
@@ -97,17 +130,39 @@ const objects = [
     location: "The Hadley-Apennine region of the Moon, near Hadley Rille, at the rover's last parking position.",
     stillThere: "Yes, at its last known position",
     status: "The rover was left parked on the lunar surface after the astronauts completed their final excursion. NASA's Apollo 15 historical records include a photograph of its final parking position. It is no longer operational, and its current physical condition has not been directly inspected.",
-    // Image (TODO: save apollo15-lunar-rover.jpg in assets/, then type that file name here)
+    // Image (the file is in assets/)
     image: "apollo15.jpg",
-    imageCaption: "The Apollo 15 Lunar Roving Vehicle at its final parked position after the third lunar excursion.",
+    imageCaption: "An Apollo 15 astronaut seated on the Lunar Roving Vehicle on the lunar surface.",
     imageCredit: "NASA",
-    moreImages: [],
+    imagePosition: "center 55%",
+    moreImages: [
+      { image: "apollo-15.jpg",
+        caption: "The Lunar Roving Vehicle on the lunar surface with an astronaut beside it and a mountain in the background.",
+        credit: "NASA",
+        source: "" }   // TODO: add the NASA page this photo came from
+    ],
+    timelineLocation: "Moon — Hadley-Apennine region",
+    timeline: [
+      { date: "July 26, 1971", title: "Apollo 15 launches",
+        text: "Apollo 15 launches with astronauts David Scott, James Irwin, and Alfred Worden." },
+      { date: "July 30, 1971", title: "Lunar landing",
+        text: "The Apollo 15 Lunar Module Falcon lands near Hadley Rille." },
+      { date: "July 31, 1971", title: "The rover is deployed", key: true,
+        text: "Astronauts unload and deploy the Lunar Roving Vehicle, then begin exploring the lunar surface with it." },
+      { date: "August 1, 1971", title: "Second day of rover exploration",
+        text: "Scott and Irwin use the rover to travel farther across the lunar landscape, collect samples, and investigate geological features." },
+      { date: "August 2, 1971", title: "Final parking position", key: true,
+        text: "The rover is parked in its final position to provide television coverage of the Lunar Module's departure. The astronauts leave it behind when they lift off." }
+    ],
+    timelineHighlight: "The rover helped the Apollo 15 astronauts explore much more lunar terrain than earlier Moon-walking crews. NASA reports that they travelled about 17.5 miles in the first vehicle driven on the Moon.",
+    timelineNote: "",
     sources: {
       mission: "https://www.nasa.gov/specials/apollo50th/missions.html",
       discovery: "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html",
       location: "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/",
       research: "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_15a_Summary.htm",
-      image: "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/"
+      image: "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/",
+      timeline: ["https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_15i_Timeline.htm", "https://www.nasa.gov/missions/apollo/apollo-15-mission-details/", "https://science.nasa.gov/resource/apollo-15-on-the-moon/"]
     }
   },
   // ---------- OBJECT 4 ----------
@@ -131,12 +186,28 @@ const objects = [
     imageCaption: "The first photograph ever taken from the surface of Mars, captured by Viking 1 shortly after landing. This is a view from the lander, not a photograph of the lander itself.",
     imageCredit: "NASA/JPL",
     moreImages: [],
+    timelineLocation: "Mars — Chryse Planitia",
+    timeline: [
+      { date: "August 20, 1975", title: "Launch",
+        text: "Viking 1 launches from Cape Canaveral on its journey to Mars." },
+      { date: "June 19, 1976", title: "Mars orbit",
+        text: "The spacecraft enters orbit around Mars and begins studying possible landing areas." },
+      { date: "July 20, 1976", title: "Successful landing", key: true,
+        text: "Viking 1 lands safely on Chryse Planitia and begins transmitting the first images from the Martian surface." },
+      { date: "July 28, 1976", title: "First soil samples",
+        text: "The lander's robotic arm collects its first samples of Martian soil for experiments." },
+      { date: "November 11, 1982", title: "Communication interrupted", key: true,
+        text: "A faulty command interrupts communications with the lander. NASA is unable to restore contact." }
+    ],
+    timelineHighlight: "",
+    timelineNote: "NASA's Viking 1 mission page describes the communications interruption on November 11, 1982. NASA's broader Viking Project page lists November 13, 1982 as the lander's formal end-of-mission date.",
     sources: {
       mission: "https://science.nasa.gov/mission/viking-1/",
       discovery: "https://science.nasa.gov/astrobiology/missions/viking-project/",
       location: "https://science.nasa.gov/mission/viking-1/",
       research: "https://www.jpl.nasa.gov/missions/viking-1/",
-      image: "https://science.nasa.gov/photojournal/first-photograph-taken-on-mars-surface/"
+      image: "https://science.nasa.gov/photojournal/first-photograph-taken-on-mars-surface/",
+      timeline: ["https://science.nasa.gov/mission/viking-1/", "https://science.nasa.gov/mission/viking/"]
     }
   },
   // ---------- OBJECT 5 ----------
@@ -156,16 +227,38 @@ const objects = [
     stillThere: "Yes, at its last known location",
     status: "A severe Mars-wide dust storm reduced sunlight reaching the rover's solar panels in 2018. Its last communication was received on June 10, 2018. After more than a thousand commands to restore contact, NASA officially declared the mission over on February 13, 2019. Its present physical condition has not been directly verified.",
     // Image (the file is in assets/)
-    image: "opportunity.jpg",
-    imageCaption: "Opportunity's self-portrait at Perseverance Valley on the slopes of Endeavour Crater, taken during its mission on Mars.",
-    imageCredit: "NASA/JPL-Caltech",
-    moreImages: [],
+    image: "oppycampfir_0.webp",   // TODO: check the credit and add the source page for this illustration
+    imageCaption: "An illustration of a Mars Exploration Rover, the type of rover Opportunity was, on the surface of Mars. This is a computer-generated image, not a photograph.",
+    imageCredit: "",
+    imagePosition: "center 60%",
+    moreImages: [
+      { image: "opportunity.jpg",
+        caption: "Opportunity's self-portrait at Perseverance Valley on the slopes of Endeavour Crater, taken during its mission on Mars.",
+        credit: "NASA/JPL-Caltech",
+        source: "https://science.nasa.gov/photojournal/opportunitys-first-selfie/" }
+    ],
+    timelineLocation: "Mars — Meridiani Planum / Perseverance Valley",
+    timeline: [
+      { date: "July 7, 2003", title: "Launch",
+        text: "Opportunity launches from Cape Canaveral to investigate Mars and search for evidence of ancient water." },
+      { date: "January 24–25, 2004", title: "Mars landing", key: true,
+        text: "Opportunity lands at Meridiani Planum. NASA gives January 24 as the Pacific local date and January 25 as the UTC date." },
+      { date: "July 26, 2004", title: "Surpasses its planned lifetime",
+        text: "Opportunity reaches its 180th Martian day, twice its planned 90-sol primary mission." },
+      { date: "June 10, 2018", title: "Last communication",
+        text: "NASA receives Opportunity's last signal during a severe planet-wide dust storm that reduces sunlight reaching its solar panels." },
+      { date: "February 13, 2019", title: "Mission declared over", key: true,
+        text: "After many attempts to restore contact, NASA officially declares the Opportunity mission complete." }
+    ],
+    timelineHighlight: "Opportunity was designed for 90 Martian days but operated for almost 15 years and travelled approximately 45.16 kilometres.",
+    timelineNote: "",
     sources: {
       mission: "https://science.nasa.gov/mission/mer-opportunity/",
       discovery: "https://science.nasa.gov/resource/meridiani-planum-2/",
       location: "https://science.nasa.gov/resource/opportunitys-last-message/",
       research: "https://www.nasa.gov/news-release/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end/",
-      image: "https://science.nasa.gov/photojournal/opportunitys-first-selfie/"
+      image: "",   // TODO: source page of the main illustration (the self-portrait's source is in moreImages)
+      timeline: ["https://science.nasa.gov/mission/mer-opportunity/", "https://science.nasa.gov/missions/mer/nasas-opportunity-rover-mission-on-mars-comes-to-end/", "https://science.nasa.gov/resource/last-commands-to-opportunity/"]
     }
   }
 ];

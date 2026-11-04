@@ -29,10 +29,12 @@ function sourceLink(text, fallback) {
 }
 
 // Builds an image box. With no image (or a missing file) the placeholder text stays visible.
-// file = file name inside assets/, alt = a description of the photo for screen readers.
-function imageBox(file, alt) {
+// file = file name inside assets/, alt = a description of the photo for screen readers,
+// position = optional crop position such as "center 60%".
+function imageBox(file, alt, position) {
+  const style = position ? ` style="object-position: ${esc(position)}"` : "";  // optional crop position
   const img = file
-    ? `<img src="assets/${esc(file)}" alt="${esc(alt)}" onerror="this.style.display='none'">`
+    ? `<img src="assets/${esc(file)}" alt="${esc(alt)}"${style} onerror="this.style.display='none'">`
     : "";
   return `<div class="image-box">Image coming soon${img}</div>`;
 }
@@ -48,6 +50,15 @@ function getYear(obj) {
   return match ? match[0] : "";
 }
 
+// Like sourceLink, but also accepts a list of sources (for example sources.timeline in data.js).
+function sourceLinks(value, fallback) {
+  const list = [].concat(value || []).filter(Boolean);  // one source or a list: always make a list
+  if (list.length === 0) {
+    return show("", fallback);
+  }
+  return list.map(function (item) { return sourceLink(item); }).join("<br>");
+}
+
 // ===== A. Hero photo strip: one small photo for every object that has an image =====
 function buildStrip() {
   let html = "";
@@ -55,7 +66,7 @@ function buildStrip() {
     if (obj.image) {
       html += `
         <button class="strip-item" onclick="openStory(${i})" aria-label="Open the story of ${esc(obj.name)}" title="${esc(obj.name)}">
-          <img src="assets/${esc(obj.image)}" alt="${esc(obj.imageCaption || obj.name)}" onerror="this.parentNode.style.display='none'">
+          <img src="assets/${esc(obj.image)}" alt="${esc(obj.imageCaption || obj.name)}" style="object-position: ${esc(obj.imagePosition || "")}" onerror="this.parentNode.style.display='none'">
         </button>`;
     }
   });
@@ -73,7 +84,7 @@ function buildCards() {
     html += `
       <article class="card">
         <a class="card-image" href="#story" onclick="openStory(${i}); return false;" aria-label="Explore the story of ${esc(label)}">
-          ${imageBox(obj.image, obj.imageCaption || label)}
+          ${imageBox(obj.image, obj.imageCaption || label, obj.imagePosition)}
           ${chip(obj.target, "chip-target")}
         </a>
         <div class="card-body">
@@ -97,7 +108,8 @@ function getSteps(obj) {
     { title: "The Discovery", source: obj.sources.discovery,
       facts: [["What it achieved and discovered", obj.discoveries], ["Why it was important", obj.importance]] },
     { title: "Where Is It Now?", source: obj.sources.location,
-      facts: [["Where it was left", obj.location], ["Is it still there?", obj.stillThere], ["Current known condition", obj.status]] }
+      facts: [["Where it was left", obj.location], ["Is it still there?", obj.stillThere], ["Current known condition", obj.status]] },
+    { title: "Timeline", source: obj.sources.timeline, timeline: true, facts: [] }
   ];
 }
 
@@ -110,7 +122,7 @@ function openStory(index) {
 
   // Large photo at the top, with its caption and credit
   document.getElementById("story-image").innerHTML = `
-    ${imageBox(obj.image, obj.imageCaption || label)}
+    ${imageBox(obj.image, obj.imageCaption || label, obj.imagePosition)}
     <figcaption>${show(obj.imageCaption, "Image caption to be added.")}<br>
     Credit: ${show(obj.imageCredit, "Image credit to be added.")}</figcaption>`;
 
@@ -134,7 +146,7 @@ function buildMorePhotos(obj) {
   extras.forEach(function (m) {
     html += `
       <figure>
-        ${imageBox(m.image, m.caption || obj.name)}
+        ${imageBox(m.image, m.caption || obj.name, m.position)}
         <figcaption>${show(m.caption, "Image caption to be added.")}<br>
         Credit: ${show(m.credit, "Image credit to be added.")}</figcaption>
       </figure>`;
@@ -143,13 +155,36 @@ function buildMorePhotos(obj) {
     extras.length ? `<h3>More photos</h3><div class="more-grid">${html}</div>` : "";
 }
 
-// ===== D. Timeline tour: shows one stage (0, 1 or 2). Previous / Next call this too. =====
+// ===== Stage 4: the Timeline, a vertical list of dated events (timeline in data.js) =====
+function buildTimeline(obj) {
+  const events = obj.timeline || [];
+  if (events.length === 0) {
+    return `<p>${show("")}</p>`;
+  }
+  let html = obj.timelineLocation ? `<p class="meta">${esc(obj.timelineLocation)}</p>` : "";
+  html += `<ol class="timeline">`;
+  events.forEach(function (ev) {
+    html += `
+      <li class="tl-item ${ev.key ? "key" : ""}">
+        <span class="tl-date">${esc(ev.date)}</span>
+        <strong class="tl-title">${esc(ev.title)}</strong>
+        <span class="tl-text">${esc(ev.text)}</span>
+      </li>`;
+  });
+  html += `</ol>`;
+  if (obj.timelineHighlight) { html += `<p class="callout">${esc(obj.timelineHighlight)}</p>`; }
+  if (obj.timelineNote) { html += `<p class="meta">${esc(obj.timelineNote)}</p>`; }
+  html += `<p class="meta">This timeline lists historical events recorded by NASA. It is not a prediction of what will happen next.</p>`;
+  return html;
+}
+
+// ===== D. Story tour: shows one stage (0 to 3). Previous / Next call this too. =====
 function goToStep(index) {
   currentStep = index;
   const steps = getSteps(objects[currentObject]);
   const step = steps[index];
 
-  // The tour panel gets a class (step-0, step-1 or step-2) that sets the accent color of this stage
+  // The tour panel gets a class (step-0 to step-3) that sets the accent color of this stage
   document.getElementById("tour").className = "panel tour step-" + index;
 
   // Three numbered step buttons: the current one is highlighted, earlier ones are marked "done"
@@ -162,10 +197,13 @@ function goToStep(index) {
 
   // The facts of this stage, followed by their source
   let html = `<h3>${step.title}</h3>`;
+  if (step.timeline) {
+    html += buildTimeline(objects[currentObject]);
+  }
   step.facts.forEach(function (fact) {
     html += `<p><span class="fact-label">${fact[0]}</span><br>${show(fact[1])}</p>`;
   });
-  html += `<p class="source">Source: ${sourceLink(step.source, "Source to be added.")}</p>`;
+  html += `<p class="source">Source: ${sourceLinks(step.source, "Source to be added.")}</p>`;
   document.getElementById("step-content").innerHTML = html;
 
   // Progress indicator and Previous / Next buttons
@@ -180,7 +218,8 @@ function buildSources(obj) {
   const s = obj.sources;
   const rows = [
     ["NASA source: The Mission", s.mission], ["NASA source: The Discovery", s.discovery],
-    ["NASA source: Where Is It Now?", s.location], ["Research references", s.research],
+    ["NASA source: Where Is It Now?", s.location], ["NASA source: Timeline", s.timeline],
+    ["Research references", s.research],
     ["Image source", s.image], ["Image credit", obj.imageCredit]
   ];
   (obj.moreImages || []).forEach(function (m, i) {
@@ -188,7 +227,7 @@ function buildSources(obj) {
   });
   let html = "";
   rows.forEach(function (row) {
-    html += `<dt>${row[0]}</dt><dd>${sourceLink(row[1], "To be added.")}</dd>`;
+    html += `<dt>${row[0]}</dt><dd>${sourceLinks(row[1], "To be added.")}</dd>`;
   });
   document.getElementById("source-list").innerHTML = html;
 }

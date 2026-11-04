@@ -11,6 +11,7 @@
   --blue: #5aa9ff;    /* blue accent (step 1) */
   --orange: #ff8c42;  /* orange accent (step 2) */
   --ice: #dbe6ff;     /* pale accent (step 3) */
+  --mint: #7ee0c3;    /* soft green accent (step 4, Timeline) */
 }
 
 /* ===== 2. BASIC PAGE ===== */
@@ -125,8 +126,9 @@ figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 .step-0 { --accent: var(--blue); }
 .step-1 { --accent: var(--orange); }
 .step-2 { --accent: var(--ice); }
+.step-3 { --accent: var(--mint); }
 .tour { margin: 28px 0; border-top: 4px solid var(--accent); }
-.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
 .tab {
   display: flex; align-items: center; gap: 10px; padding: 10px 12px; text-align: left;
   background: transparent; color: var(--muted); border-color: var(--border); font-weight: normal;
@@ -143,6 +145,20 @@ figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 #step-content p { max-width: 65ch; line-height: 1.7; }
 .fact-label { color: var(--accent); font-weight: bold; font-size: 0.9rem; }
 .source { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 10px; }
+/* Timeline: a thin vertical line with a dot for every event */
+.timeline { position: relative; margin: 12px 0 8px; padding: 0 0 0 30px; list-style: none; }
+.timeline::before { content: ""; position: absolute; top: 8px; bottom: 8px; left: 7px; width: 2px; background: var(--border); }
+.tl-item { position: relative; margin-bottom: 22px; }
+.tl-item::before {  /* the dot */
+  content: ""; position: absolute; top: 4px; left: -30px; width: 16px; height: 16px;
+  border: 2px solid var(--blue); border-radius: 50%; background: var(--panel);
+}
+.tl-item.key::before { border-color: var(--orange); background: var(--orange); }  /* important moments */
+.tl-date { display: block; color: var(--blue); font-size: 0.9rem; font-weight: bold; }
+.tl-item.key .tl-date { color: var(--orange); }
+.tl-title { display: block; }
+.tl-text { display: block; color: var(--muted); font-size: 0.95rem; }
+.callout { max-width: 65ch; margin: 18px 0; padding: 10px 14px; border-left: 3px solid var(--orange); background: rgba(255, 140, 66, 0.08); }
 .nav-buttons { display: flex; justify-content: space-between; margin-top: 16px; }
 .more-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 400px)); gap: 16px; }
 .more-grid .image-box { aspect-ratio: 3 / 2; }
