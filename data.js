@@ -98,7 +98,7 @@ const objects = [
     stillThere: "Yes, at its last known position",
     status: "The rover was left parked on the lunar surface after the astronauts completed their final excursion. NASA's Apollo 15 historical records include a photograph of its final parking position. It is no longer operational, and its current physical condition has not been directly inspected.",
     // Image (TODO: save apollo15-lunar-rover.jpg in assets/, then type that file name here)
-    image: "",
+    image: "apollo15.jpg",
     imageCaption: "The Apollo 15 Lunar Roving Vehicle at its final parked position after the third lunar excursion.",
     imageCredit: "NASA",
     moreImages: [],
