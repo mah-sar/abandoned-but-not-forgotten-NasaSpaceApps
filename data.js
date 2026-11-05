@@ -34,14 +34,15 @@ const objects = [
     stillThere: "Yes",
     status: "The descent stage was left on the lunar surface after the ascent stage departed. NASA's Lunar Reconnaissance Orbiter later photographed the landing site, where the descent stage and astronaut tracks are visible. The stage is no longer operational. Its current physical condition has not been directly inspected.",
     // Image (the file is in assets/)
-    image: "apollo-11.jpeg",
-    imageCaption: "NASA's Lunar Reconnaissance Orbiter image of the Apollo 11 landing site, showing the descent stage and astronaut tracks.",
-    imageCredit: "NASA/Goddard Space Flight Center/Arizona State University",
+    image: "apollo11.jpg",
+    imageCaption: "The Apollo 11 Lunar Module Eagle on the lunar surface with an astronaut beside it. Both stages are still joined in this photograph; the descent stage is the lower section.",
+    imageCredit: "NASA",
+    imagePosition: "center 68%",
     moreImages: [
-      { image: "apollo11.jpg",
-        caption: "The Apollo 11 Lunar Module Eagle on the lunar surface with an astronaut beside it. Both stages are still joined in this photograph; the descent stage is the lower section.",
-        credit: "NASA",
-        source: "" }   // TODO: add the NASA page this photo came from
+      { image: "apollo-11.jpeg",
+        caption: "NASA's Lunar Reconnaissance Orbiter image of the Apollo 11 landing site, showing the descent stage and astronaut tracks.",
+        credit: "NASA/Goddard Space Flight Center/Arizona State University",
+        source: "https://science.nasa.gov/resource/apollo-11-landing-site/" }
     ],
     // Timeline tab (Stage 4): historical events in date order. key: true highlights a moment.
     timelineLocation: "Moon — Sea of Tranquility",
@@ -62,7 +63,7 @@ const objects = [
       discovery: "https://nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html",
       location: "https://science.nasa.gov/resource/apollo-11-landing-site/",
       research: "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo11info.html",
-      image: "https://science.nasa.gov/resource/apollo-11-landing-site/",
+      image: "https://www.nasa.gov/image-detail/amf-as11-40-5927/",
       timeline: ["https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_11i_Timeline.htm", "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html", "https://www.nasa.gov/history/apollo-11-mission-overview/"]
     }
   },
@@ -182,10 +183,16 @@ const objects = [
     stillThere: "Yes, at its last known landing site",
     status: "Viking 1 operated for more than six years. Its communications ended in November 1982 after a faulty command interrupted contact with Earth. Attempts to restore communication were unsuccessful. Its present physical condition has not been directly verified.",
     // Image (the file is in assets/)
-    image: "viking-1.webp",
-    imageCaption: "The first photograph ever taken from the surface of Mars, captured by Viking 1 shortly after landing. This is a view from the lander, not a photograph of the lander itself.",
-    imageCredit: "NASA/JPL",
-    moreImages: [],
+    image: "viking-lander-model.jpg",
+    imageCaption: "A model of a Viking lander on a simulated Martian surface. This photograph was taken on Earth, not on Mars.",
+    imageCredit: "NASA/JPL-Caltech/University of Arizona",
+    imagePosition: "center 30%",
+    moreImages: [
+      { image: "viking-1.webp",
+        caption: "The first photograph ever taken from the surface of Mars, captured by Viking 1 shortly after landing. This is a view from the lander, not a photograph of the lander itself.",
+        credit: "NASA/JPL",
+        source: "https://science.nasa.gov/photojournal/first-photograph-taken-on-mars-surface/" }
+    ],
     timelineLocation: "Mars — Chryse Planitia",
     timeline: [
       { date: "August 20, 1975", title: "Launch",
@@ -206,7 +213,7 @@ const objects = [
       discovery: "https://science.nasa.gov/astrobiology/missions/viking-project/",
       location: "https://science.nasa.gov/mission/viking-1/",
       research: "https://www.jpl.nasa.gov/missions/viking-1/",
-      image: "https://science.nasa.gov/photojournal/first-photograph-taken-on-mars-surface/",
+      image: "https://www.jpl.nasa.gov/images/pia09703-viking-lander-model/",
       timeline: ["https://science.nasa.gov/mission/viking-1/", "https://science.nasa.gov/mission/viking/"]
     }
   },
@@ -227,16 +234,10 @@ const objects = [
     stillThere: "Yes, at its last known location",
     status: "A severe Mars-wide dust storm reduced sunlight reaching the rover's solar panels in 2018. Its last communication was received on June 10, 2018. After more than a thousand commands to restore contact, NASA officially declared the mission over on February 13, 2019. Its present physical condition has not been directly verified.",
     // Image (the file is in assets/)
-    image: "oppycampfir_0.webp",   // TODO: check the credit and add the source page for this illustration
-    imageCaption: "An illustration of a Mars Exploration Rover, the type of rover Opportunity was, on the surface of Mars. This is a computer-generated image, not a photograph.",
-    imageCredit: "",
-    imagePosition: "center 60%",
-    moreImages: [
-      { image: "opportunity.jpg",
-        caption: "Opportunity's self-portrait at Perseverance Valley on the slopes of Endeavour Crater, taken during its mission on Mars.",
-        credit: "NASA/JPL-Caltech",
-        source: "https://science.nasa.gov/photojournal/opportunitys-first-selfie/" }
-    ],
+    image: "opportunity.jpg",
+    imageCaption: "Opportunity's self-portrait at Perseverance Valley on the slopes of Endeavour Crater, taken during its mission on Mars.",
+    imageCredit: "NASA/JPL-Caltech",
+    moreImages: [],
     timelineLocation: "Mars — Meridiani Planum / Perseverance Valley",
     timeline: [
       { date: "July 7, 2003", title: "Launch",
@@ -257,7 +258,7 @@ const objects = [
       discovery: "https://science.nasa.gov/resource/meridiani-planum-2/",
       location: "https://science.nasa.gov/resource/opportunitys-last-message/",
       research: "https://www.nasa.gov/news-release/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end/",
-      image: "",   // TODO: source page of the main illustration (the self-portrait's source is in moreImages)
+      image: "https://science.nasa.gov/photojournal/opportunitys-first-selfie/",
       timeline: ["https://science.nasa.gov/mission/mer-opportunity/", "https://science.nasa.gov/missions/mer/nasas-opportunity-rover-mission-on-mars-comes-to-end/", "https://science.nasa.gov/resource/last-commands-to-opportunity/"]
     }
   }
