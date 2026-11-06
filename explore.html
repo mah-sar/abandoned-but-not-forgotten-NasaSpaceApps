@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore five pieces of NASA space exploration history left on the Moon and Mars.">
+  <title>Explore Objects | Abandoned but Not Forgotten</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="explore">
+
+  <!-- Navigation bar: built by script.js, the same on all three pages -->
+  <header id="site-header"></header>
+
+  <main>
+    <!-- OVERVIEW: page title and the object cards (the cards are created by script.js from data.js) -->
+    <div id="overview">
+      <div class="page-head">
+        <div class="wrap">
+          <h1>Explore the Objects</h1>
+          <p class="subtitle">Five pieces of space exploration history. Two worlds. Stories worth remembering.</p>
+        </div>
+      </div>
+      <section id="objects">
+        <div id="cards" class="grid"></div>
+      </section>
+    </div>
+
+    <!-- STORY: shown when a card is selected (web address ends in #object-1 ... #object-5) -->
+    <section id="story" hidden>
+      <div class="story-bar">
+        <a class="button secondary" href="#objects">&larr; Back to All Objects</a>
+        <button class="secondary" onclick="document.getElementById('sources').scrollIntoView()">Sources and credits</button>
+      </div>
+      <figure id="story-image"></figure>
+      <h2 id="story-title"></h2>
+      <div id="story-chips" class="chips"></div>
+      <p id="story-description"></p>
+
+      <!-- The Full Story: numbered chapters from data.js (stays empty when an object has none) -->
+      <div id="story-chapters"></div>
+
+      <!-- The tour: four steps, progress indicator, step content, Previous / Next -->
+      <div id="tour" class="panel tour">
+        <div id="step-tabs" class="tabs"></div>
+        <p id="progress-text" class="meta"></p>
+        <div class="progress"><div id="progress-bar"></div></div>
+        <div id="step-content"></div>
+        <div class="nav-buttons">
+          <button id="prev-btn" class="secondary" onclick="goToStep(currentStep - 1)">Previous</button>
+          <button id="next-btn" onclick="goToStep(currentStep + 1)">Next</button>
+        </div>
+      </div>
+
+      <!-- Extra photos (moreImages in data.js); stays empty when an object has none -->
+      <div id="story-more"></div>
+
+      <div id="sources" class="panel">
+        <h3>Sources and Credits</h3>
+        <dl id="source-list"></dl>
+      </div>
+
+      <!-- Previous object / back to all objects / next object -->
+      <nav id="object-nav" class="object-nav" aria-label="Other objects"></nav>
+    </section>
+  </main>
+
+  <!-- Footer: built by script.js, the same on all three pages -->
+  <footer id="site-footer"></footer>
+
+  <!-- data.js must come first: script.js reads the information from it -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

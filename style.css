@@ -34,35 +34,59 @@ a { color: var(--blue); }
 .empty { color: var(--muted); font-style: italic; }
 .meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 8px; }
 
-/* ===== 3. NAVIGATION AND HERO ===== */
+/* ===== 3. NAVIGATION, HERO AND HOME PAGE ===== */
+.site-header { border-bottom: 1px solid var(--border); }
 .navbar {
-  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-  padding: 14px 20px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px 20px;
+  max-width: 1000px; margin: 0 auto; padding: 14px 20px;
 }
-.navbar a { color: var(--muted); text-decoration: none; margin-left: 18px; }
-.navbar a:hover { color: var(--orange); }
-.logo { font-weight: bold; }
+.logo { color: var(--text); font-weight: bold; text-decoration: none; }
+.nav-links a {
+  margin-left: 22px; padding: 4px 0; color: var(--muted); text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--text); border-bottom-color: var(--orange); }  /* the page you are on */
 
-.hero { position: relative; overflow: hidden; padding: 90px 0 60px; }
-.hero h1 { font-size: clamp(2.2rem, 7vw, 3.8rem); }
-.hero p { max-width: 600px; }
 .subtitle { color: var(--blue); font-size: 1.25rem; }
-/* A dashed orbit with one lonely orange dot */
-.hero::before {
-  content: ""; position: absolute; top: -60px; right: -120px;
-  width: 420px; height: 420px; border: 1px dashed var(--blue);
-  border-radius: 50%; opacity: 0.4;
+.lead { max-width: 70ch; color: var(--muted); font-size: 1.05rem; }
+.button-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+
+/* Home page hero: text on the left, photo collage on the right */
+.hero { max-width: none; padding: 64px 0 56px; border-bottom: 1px solid var(--border); }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+.hero-text p { max-width: 540px; }
+.collage { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.collage a { display: block; overflow: hidden; aspect-ratio: 4 / 3; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; }
+.collage a:first-child { grid-column: 1 / -1; aspect-ratio: 2 / 1; }  /* the first photo is wide */
+.collage img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+.collage a:hover img { opacity: 1; }
+
+/* Title area at the top of the Explore and Quiz pages */
+.page-head { padding: 48px 0 28px; border-bottom: 1px solid var(--border); }
+.page-head h1 { font-size: clamp(2rem, 5vw, 2.8rem); }
+.page-head .subtitle { margin: 0; }
+
+/* Home page sections */
+.info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
+.info-grid .panel { padding: 20px; }
+.info-grid h3 { color: var(--blue); font-size: 1.05rem; }
+.info-grid p { margin: 0; color: var(--muted); }
+.band { background: rgba(19, 27, 51, 0.6); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 24px 0 0; padding: 0; list-style: none; }
+.step-card { padding: 18px; background: var(--panel); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 10px; }
+.step-card .num {
+  display: grid; place-items: center; width: 28px; height: 28px; margin-bottom: 10px;
+  background: var(--accent); color: #000; border-radius: 50%; font-weight: bold;
 }
-.hero::after {
-  content: ""; position: absolute; top: 143px; right: 293px;
-  width: 14px; height: 14px; background: var(--orange); border-radius: 50%;
-}
-/* Photo strip: small cropped photos from the objects. Click one to open its story. */
-.strip-label { margin: 44px 0 10px; color: var(--muted); font-size: 0.9rem; }
-.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
-.strip-item { height: 120px; padding: 0; overflow: hidden; background: var(--panel); border: 1px solid var(--border); }
-.strip-item img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.75; }
-.strip-item:hover img { opacity: 1; }
+.step-card h3 { font-size: 1.1rem; }
+.step-card p { margin: 0; color: var(--muted); }
+.matters .panel { padding: 36px 24px; text-align: center; border-top: 4px solid var(--orange); }
+.matters .big { max-width: 28ch; margin: 0 auto 12px; font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: bold; }
+.matters p { max-width: 60ch; margin-left: auto; margin-right: auto; color: var(--muted); }
+.matters .big { color: var(--text); }
+.matters .button-row { justify-content: center; }
 
 /* ===== 4. BUTTONS, CARDS AND PANELS ===== */
 button, .button {
@@ -112,15 +136,30 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   margin: 0 0 16px; color: var(--muted); font-size: 0.95rem;
   display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
 }
-.card button { width: 100%; margin-top: auto; }
+.card .button { margin-top: auto; text-align: center; }
 
 /* ===== 5. STORY AND TIMELINE TOUR ===== */
 figure { margin: 0; }
 figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
+.story-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
 #story-image { margin-top: 16px; }
 #story-image .image-box { width: 100%; aspect-ratio: 2 / 1; }  /* large photo at the top of the story */
 #story h2 { margin-top: 24px; font-size: 2rem; }
 #story-description { max-width: 70ch; font-size: 1.05rem; }
+
+/* The Full Story: numbered chapters */
+#story-chapters { margin: 36px 0 12px; }
+#story-chapters:empty { display: none; }
+#story-chapters h3 { font-size: 1.5rem; }
+.chapters { display: grid; gap: 24px; max-width: 72ch; margin: 18px 0; }
+.chapter { display: grid; grid-template-columns: 34px 1fr; gap: 16px; }
+.chapter-num {
+  display: grid; place-items: center; width: 34px; height: 34px;
+  border: 2px solid var(--blue); border-radius: 50%; color: var(--blue); font-weight: bold;
+}
+.chapter h4 { margin: 3px 0 6px; font-size: 1.15rem; }
+.chapter p { margin: 0; color: #e3e9f8; line-height: 1.75; white-space: pre-line; }
+#story-chapters .source { max-width: 72ch; }
 
 /* The tour: each stage has its own accent color */
 .step-0 { --accent: var(--blue); }
@@ -164,6 +203,15 @@ figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 .more-grid .image-box { aspect-ratio: 3 / 2; }
 #story-more:empty { display: none; }
 #sources { margin-top: 28px; }
+.object-nav { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: stretch; margin-top: 28px; }
+.object-nav a:not(.button) {
+  display: block; padding: 12px 16px; background: var(--panel); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text); text-decoration: none;
+}
+.object-nav a:not(.button):hover { border-color: var(--blue); }
+.object-nav small { display: block; color: var(--blue); }
+.object-nav .next { text-align: right; }
+.object-nav .button { align-self: center; }
 #sources dt { margin-top: 10px; color: var(--blue); font-weight: bold; }
 #sources dd { margin: 0; color: var(--muted); }
 .source, #sources dd { overflow-wrap: anywhere; }  /* long web addresses wrap on phones */
@@ -171,16 +219,38 @@ figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 /* ===== 6. QUIZ ===== */
 .option { display: block; margin: 8px 0; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
 .option:hover { border-color: var(--blue); }
+.option:has(input:checked) { border-color: var(--orange); background: rgba(255, 140, 66, 0.08); }
+.quiz-panel { padding: 24px; border-top: 4px solid var(--orange); }
+.quiz-panel h3 { font-size: 1.3rem; }
+#quiz-bar { height: 100%; background: var(--orange); border-radius: 3px; transition: width 0.3s; }
+.big-score { margin: 8px 0; color: var(--orange); font-size: 3rem; font-weight: bold; line-height: 1; }
 .correct { color: #5fd38d; font-weight: bold; }
 .wrong { color: var(--orange); font-weight: bold; }
 
 /* ===== 7. FOOTER AND SMALL SCREENS ===== */
-footer { padding: 30px 20px; text-align: center; color: var(--muted); border-top: 1px solid var(--border); }
+.site-footer { margin-top: 40px; padding: 36px 0 28px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.95rem; }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.4fr; gap: 28px; }
+.footer-grid strong { color: var(--text); }
+.footer-grid p { margin: 6px 0 0; }
+.footer-links { display: flex; flex-direction: column; gap: 6px; }
+.footer-links a { color: var(--muted); text-decoration: none; }
+.footer-links a:hover { color: var(--orange); }
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 700px) {
   .card { flex-basis: 100%; }
-  .hero { padding: 60px 0 40px; }
+  .hero { padding: 40px 0 36px; }
   #story-image .image-box { aspect-ratio: 4 / 3; }
-  .hero::before, .hero::after { display: none; }  /* hide the orbit on phones */
   .tab { flex-direction: column; gap: 4px; padding: 8px 4px; text-align: center; font-size: 0.8rem; }
+  .nav-links { width: 100%; }
+  .nav-links a { margin: 0 18px 0 0; }
+  .footer-grid, .info-grid { grid-template-columns: 1fr; }
+  .object-nav { grid-template-columns: 1fr; }
+  .object-nav .button { order: 3; }
+  .object-nav .next { text-align: left; }
 }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } #progress-bar { transition: none; } }
+@media (max-width: 480px) { .steps-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } #progress-bar, #quiz-bar { transition: none; } }

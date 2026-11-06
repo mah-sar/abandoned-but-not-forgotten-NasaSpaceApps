@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A short mission briefing quiz about NASA equipment left on the Moon and Mars.">
+  <title>Quiz | Abandoned but Not Forgotten</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="quiz">
+
+  <!-- Navigation bar: built by script.js, the same on all three pages -->
+  <header id="site-header"></header>
+
+  <main>
+    <div class="page-head">
+      <div class="wrap">
+        <h1>Test Your Knowledge</h1>
+        <p class="subtitle">Mission briefing: how much do you remember?</p>
+      </div>
+    </div>
+
+    <!-- QUIZ: built by script.js from quizQuestions in data.js -->
+    <section id="quiz">
+      <p class="lead">Welcome to the mission briefing. Answer one question at a time, read the explanation, and see how much you remember about the objects in the Explore section.</p>
+      <div id="quiz-box" class="panel quiz-panel"></div>
+      <div class="button-row">
+        <a class="button secondary" href="explore.html">&larr; Back to Explore Objects</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer: built by script.js, the same on all three pages -->
+  <footer id="site-footer"></footer>
+
+  <!-- data.js must come first: script.js reads the information from it -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

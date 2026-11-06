@@ -3,82 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The stories of NASA equipment left behind on the Moon and Mars. A NASA Space Apps 2026 student project.">
   <title>Abandoned but Not Forgotten</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-page="home">
 
-  <nav class="navbar">
-    <span class="logo">Abandoned but Not Forgotten</span>
-    <div><a href="#home">Home</a> <a href="#explore">Explore</a> <a href="#quiz">Quiz</a> <a href="#about">About</a></div>
-  </nav>
-
-  <!-- A. HOME / HERO: edit the title and intro text here -->
-  <header id="home" class="hero">
-    <div class="wrap">
-      <h1>Abandoned but Not Forgotten</h1>
-      <p class="subtitle">The stories of NASA's forgotten equipment across the Moon and Mars.</p>
-      <p>Step into the archive. Some spacecraft, instruments and equipment stay behind on the Moon and Mars when their missions end. Follow selected objects through three steps: the mission, the discovery, and where they are now.</p>
-      <a class="button" href="#explore">Explore Their Stories</a>
-      <!-- Photo strip: built by script.js from the image fields in data.js -->
-      <p id="strip-label" class="strip-label">From the archive: choose a photo to open its story.</p>
-      <div id="hero-strip" class="strip"></div>
-    </div>
-  </header>
+  <!-- Navigation bar: built by script.js, the same on all three pages -->
+  <header id="site-header"></header>
 
   <main>
-    <!-- B. EXPLORE: the cards are created by script.js from data.js -->
-    <section id="explore">
-      <h2>Explore the Objects</h2>
-      <p>Choose an object to follow its story.</p>
-      <div id="cards" class="grid"></div>
-    </section>
-
-    <!-- C, D and E. STORY, TIMELINE TOUR AND SOURCES (hidden until a card is clicked) -->
-    <section id="story" hidden>
-      <a href="#explore">&larr; Back to all objects</a>
-      <figure id="story-image"></figure>
-      <h2 id="story-title"></h2>
-      <div id="story-chips" class="chips"></div>
-      <p id="story-description"></p>
-
-      <!-- The tour: three steps, progress indicator, step content, Previous / Next -->
-      <div id="tour" class="panel tour">
-        <div id="step-tabs" class="tabs"></div>
-        <p id="progress-text" class="meta"></p>
-        <div class="progress"><div id="progress-bar"></div></div>
-        <div id="step-content"></div>
-        <div class="nav-buttons">
-          <button id="prev-btn" class="secondary" onclick="goToStep(currentStep - 1)">Previous</button>
-          <button id="next-btn" onclick="goToStep(currentStep + 1)">Next</button>
+    <!-- HERO: edit the title and text here. The photo collage is built by script.js from data.js -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <h1>Abandoned but Not Forgotten</h1>
+          <p class="subtitle">Every mission leaves something behind. Every object has a story.</p>
+          <p>Across the Moon and Mars, NASA missions have left behind spacecraft, scientific instruments and exploration equipment. Though their missions have ended, their stories and contributions to science remain.</p>
+          <div class="button-row">
+            <a class="button" href="explore.html">Explore the Objects</a>
+            <a class="button secondary" href="quiz.html">Take the Quiz</a>
+          </div>
         </div>
-      </div>
-
-      <!-- Extra photos (moreImages in data.js); stays empty when an object has none -->
-      <div id="story-more"></div>
-
-      <div id="sources" class="panel">
-        <h3>Sources and Credits</h3>
-        <dl id="source-list"></dl>
+        <div id="hero-collage" class="collage" role="group" aria-label="Photographs of the objects. Select one to open its story."></div>
       </div>
     </section>
 
-    <!-- QUIZ: built by script.js from quizQuestions in data.js -->
-    <section id="quiz">
-      <h2>Test Your Knowledge</h2>
-      <div id="quiz-box" class="panel"></div>
-    </section>
-
-    <!-- F. ABOUT THE PROJECT -->
+    <!-- ABOUT THE PROJECT -->
     <section id="about">
       <h2>About the Project</h2>
-      <p><strong>The challenge.</strong> "Abandoned but Not Forgotten" is a NASA Space Apps challenge about telling the stories of NASA equipment, devices and spacecraft left behind on the Moon or Mars.</p>
-      <p><strong>Why it is interesting.</strong> Every object has a story: why it was sent, what it achieved, and where it is today.</p>
-      <p><strong>What we aim to do.</strong> We want to present these stories clearly, give a source for every fact, and let visitors check what they learned with a short quiz.</p>
+      <p class="lead">A short guide to what this website is and why these objects matter.</p>
+      <div class="info-grid">
+        <article class="panel">
+          <h3>What the challenge is about</h3>
+          <p>"Abandoned but Not Forgotten" is a NASA Space Apps challenge about telling the stories of NASA equipment, devices and spacecraft left behind on the Moon or Mars.</p>
+        </article>
+        <article class="panel">
+          <h3>Why equipment stays behind</h3>
+          <p>Each object was left for a reason connected to its mission. Eagle's descent stage stayed on the Moon when the astronauts left in the ascent stage, and the Apollo 15 rover was parked when the astronauts lifted off. Surveyor 3, Viking 1 and Opportunity stopped communicating with Earth and remain where they worked.</p>
+        </article>
+        <article class="panel">
+          <h3>Why they are interesting</h3>
+          <p>Each object marks an important moment: the first crewed landing on the Moon, the first vehicle driven on another world, the first successful U.S. landing on Mars, a lander visited by astronauts more than two years after it landed, and a rover that worked for almost 15 years.</p>
+        </article>
+        <article class="panel">
+          <h3>How this project helps</h3>
+          <p>Every object has its own four-part story, photographs with credits, a timeline and links to NASA sources. A short quiz lets you check what you learned.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- HOW TO EXPLORE: the four parts of every story (same colors as the story tabs) -->
+    <div class="band">
+      <section id="how">
+        <h2>How to Explore</h2>
+        <p class="lead">Every object's story has four parts. Move through them with the tabs, or with Previous and Next.</p>
+        <ol class="steps-grid">
+          <li class="step-card step-0"><span class="num">1</span><h3>Mission</h3><p>Why was it sent?</p></li>
+          <li class="step-card step-1"><span class="num">2</span><h3>Discovery</h3><p>What did it accomplish or discover?</p></li>
+          <li class="step-card step-2"><span class="num">3</span><h3>Where Is It Now?</h3><p>What remains today?</p></li>
+          <li class="step-card step-3"><span class="num">4</span><h3>Timeline</h3><p>What happened throughout its history?</p></li>
+        </ol>
+      </section>
+    </div>
+
+    <!-- WHY THIS MATTERS -->
+    <section class="matters">
+      <div class="panel">
+        <h2>Why This Matters</h2>
+        <p class="big">Even when a mission ends, the knowledge gained from it remains valuable.</p>
+        <p>Their records, photographs and discoveries remain part of the story of space exploration. Telling their stories helps make sure they are not forgotten.</p>
+        <div class="button-row">
+          <a class="button" href="explore.html">Explore the Objects</a>
+          <a class="button secondary" href="quiz.html">Take the Quiz</a>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer>A student project for NASA Space Apps 2026. This is not an official NASA website.</footer>
+  <!-- Footer: built by script.js, the same on all three pages -->
+  <footer id="site-footer"></footer>
 
   <!-- data.js must come first: script.js reads the information from it -->
   <script src="data.js"></script>

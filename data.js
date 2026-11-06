@@ -15,6 +15,8 @@
 // 10. timeline (Stage 4): a list of events. Each event has date, title, text and (optional)
 //     key: true to highlight an important moment. timelineLocation, timelineHighlight and
 //     timelineNote are optional short texts. sources.timeline is a list of NASA links.
+// 11. story ("The Full Story"): a list of short chapters, each with heading and text (use \n\n for a
+//     new paragraph). sources.story is the list of links the chapters are based on.
 
 const objects = [
   // ---------- OBJECT 1 ----------
@@ -24,6 +26,21 @@ const objects = [
     missionDate: "July 20, 1969 (Moon landing)",            // When the mission happened
     target: "Moon",                                         // "Moon" or "Mars"
     description: "The Apollo 11 Lunar Module, named Eagle, carried astronauts Neil Armstrong and Buzz Aldrin to the Moon's surface. Its lower section, called the descent stage, remained on the Moon after the astronauts departed in the upper ascent stage.",
+    // The Full Story: short chapters, shown above the four tabs.
+    story: [
+      { heading: "Half of a spacecraft, designed to stay",
+        text: "The Lunar Module Eagle was built in two parts. The ascent stage on top was the crew's cabin. The descent stage below it was a strong base with landing legs and the propulsion needed for the landing. It was designed to stay behind: when the astronauts left, the descent stage would be the platform they launched from." },
+      { heading: "A landing with little fuel to spare",
+        text: "On July 20, 1969, Eagle came down toward the Sea of Tranquility. Armstrong took over manual control and flew over a rocky area while Aldrin read out numbers from the instruments. In Houston, controllers counted down the fuel, and they had just called out thirty seconds remaining when Eagle touched down. Armstrong radioed: \"Houston, Tranquility Base here. The Eagle has landed.\"" },
+      { heading: "A message on a landing leg",
+        text: "When Armstrong climbed down the ladder, he uncovered a stainless-steel plaque on one of the descent stage's landing legs. It had been covered by a thin steel sheet during the flight. The plaque carries the signatures of the three Apollo 11 astronauts and the U.S. president, and a short message: \"We came in peace for all mankind.\"" },
+      { heading: "From base to launch pad",
+        text: "The descent stage had one more job to do. When Armstrong and Aldrin were ready to leave, the ascent stage lifted off from the top of it to carry them back to lunar orbit. The descent stage stayed on the Moon, still carrying its plaque." },
+      { heading: "Seen again from orbit",
+        text: "Decades later, NASA's Lunar Reconnaissance Orbiter photographed the Apollo 11 landing site. In its pictures, the descent stage and the astronauts' tracks can be seen on the surface. The stage is no longer operational, and its present physical condition has not been directly inspected." },
+      { heading: "Why it still matters",
+        text: "The descent stage did not carry out science of its own. Its achievement was making the first crewed landing on the Moon possible. Today it is a physical reminder of Apollo 11 and of the beginning of human exploration on another world." }
+    ],
     // Stage 1: The Mission
     purpose: "The descent stage provided the propulsion and landing structure needed to bring Eagle safely down onto the lunar surface. It also carried equipment and supplies and served as the launch platform for the ascent stage when the astronauts departed.",
     // Stage 2: The Discovery
@@ -64,7 +81,8 @@ const objects = [
       location: "https://science.nasa.gov/resource/apollo-11-landing-site/",
       research: "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo11info.html",
       image: "https://www.nasa.gov/image-detail/amf-as11-40-5927/",
-      timeline: ["https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_11i_Timeline.htm", "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html", "https://www.nasa.gov/history/apollo-11-mission-overview/"]
+      timeline: ["https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_11i_Timeline.htm", "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html", "https://www.nasa.gov/history/apollo-11-mission-overview/"],
+      story: ["https://science.nasa.gov/resource/apollo-11-plaque/", "https://www.esa.int/ESA_Multimedia/Images/2009/07/The_plaque_on_Eagle_s_landing_leg", "https://www.nasa.gov/?p=168313", "https://www.nasa.gov/history/apollo-11-mission-overview/", "https://science.nasa.gov/resource/apollo-11-landing-site/"]
     }
   },
   // ---------- OBJECT 2 ----------
@@ -74,6 +92,20 @@ const objects = [
     missionDate: "April 20, 1967 (Moon landing, UTC)",
     target: "Moon",
     description: "Surveyor 3 was a robotic NASA spacecraft sent to make a soft landing on the Moon. It carried a television camera and a mechanical surface sampler to study lunar soil. More than two years later, Apollo 12 astronauts landed nearby and visited the spacecraft.",
+    story: [
+      { heading: "A scout before the astronauts",
+        text: "Surveyor 3 was a robotic lander launched in April 1967, more than two years before the first astronauts landed on the Moon. Its job was to test whether a spacecraft could make a soft landing, to photograph the surface and to examine the lunar soil. This helped NASA understand the Moon before people explored it." },
+      { heading: "A bumpy arrival",
+        text: "Surveyor 3 reached the Moon on April 20, 1967, but its landing did not go as planned. It bounced twice before it came to rest on the inside slope of a small crater in the Ocean of Storms." },
+      { heading: "A camera and a robotic scoop",
+        text: "Once it was down, Surveyor 3 went to work. Its television camera sent back thousands of pictures, and a mechanical scoop on an arm dug into the lunar soil while the camera watched. The trenches helped engineers learn about the soil that astronauts would soon walk on." },
+      { heading: "Silence",
+        text: "NASA received the last contact from Surveyor 3 on May 4, 1967. After that, the lander sat quietly in its crater, and for a while that seemed to be the end of its story." },
+      { heading: "Visitors from Earth",
+        text: "On November 19–20, 1969, Apollo 12 astronauts Charles Conrad and Alan Bean landed less than 200 metres (about 600 feet) from the old lander. They examined it and removed its television camera, its soil scoop and other parts to bring back to Earth. Scientists wanted to learn how more than two years on the Moon had affected the materials." },
+      { heading: "A camera in a museum",
+        text: "The television camera that sat on the Moon is now on display at the Smithsonian's National Air and Space Museum in Washington, D.C. The rest of the lander is still at its landing site, which NASA's Lunar Reconnaissance Orbiter photographed in 2009. Its present physical condition has not been directly inspected." }
+    ],
     // Stage 1: The Mission
     purpose: "Surveyor 3 was designed to land safely on the Moon, photograph the surface, and examine the mechanical properties of lunar soil.\n\nIts investigations helped NASA understand the lunar terrain and prepare for future crewed lunar landings.",
     // Stage 2: The Discovery
@@ -112,7 +144,8 @@ const objects = [
       location: "https://nssdc.gsfc.nasa.gov/planetary/lunar/surveyor.html",
       research: "https://science.nasa.gov/mission/surveyor-3/",
       image: "https://science.nasa.gov/resource/apollo-12-and-surveyor-3/",
-      timeline: ["https://science.nasa.gov/mission/surveyor-3/", "https://science.nasa.gov/resource/apollo-12-and-surveyor-3/", "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_12i_Timeline.htm"]
+      timeline: ["https://science.nasa.gov/mission/surveyor-3/", "https://science.nasa.gov/resource/apollo-12-and-surveyor-3/", "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_12i_Timeline.htm"],
+      story: ["https://science.nasa.gov/image-article/apod-1999-april-08-apollo-12-surveyor-3-and-intrepid/", "https://science.nasa.gov/mission/surveyor-3/", "https://science.nasa.gov/resource/apollo-12-and-surveyor-3/", "https://www.engr.colostate.edu/~hillger/pdf/Surveyor-3_visited_by_Apollo-12.pdf"]
     }
   },
   // ---------- OBJECT 3 ----------
@@ -122,6 +155,20 @@ const objects = [
     missionDate: "July 30, 1971 (Moon landing); rover first used July 31, 1971",
     target: "Moon",
     description: "The Apollo 15 Lunar Roving Vehicle was a battery-powered electric vehicle used by astronauts David Scott and James Irwin to travel across the lunar surface.\n\nIt allowed astronauts to explore locations much farther from their lunar module than they could have reached by walking.",
+    story: [
+      { heading: "A car folded like a suitcase",
+        text: "The Lunar Roving Vehicle travelled to the Moon folded up in a storage bay on the Lunar Module's descent stage. Its wheels were folded in and its frame was folded over its middle. Apollo 15 was the first mission to use one. Apollo 16 and Apollo 17 carried the other two." },
+      { heading: "Unpacking day",
+        text: "On July 31, 1971, David Scott and James Irwin unloaded the rover and set it up on the lunar surface. It was a battery-powered electric vehicle that the astronauts drove themselves, and it was the first vehicle ever driven on the Moon." },
+      { heading: "Tires made of wire",
+        text: "The rover's tires were not rubber. They were made of spring-steel wire mesh, with titanium-alloy chevrons to help them grip." },
+      { heading: "A rocky start",
+        text: "The first day of driving did not go perfectly: only the rover's rear wheels could steer at first. Even so, the rover let Scott and Irwin travel farther across the lunar landscape, collect samples and investigate geological features. Over the mission it travelled about 27.8 kilometres (17.3 miles)." },
+      { heading: "One last parking spot",
+        text: "On August 2, 1971, the astronauts parked the rover in its final position so that it could provide television coverage of the Lunar Module's departure. Then they lifted off and left the rover behind." },
+      { heading: "Still on the Moon",
+        text: "The Apollo 15 rover is still parked in the Hadley-Apennine region, near Hadley Rille. It is no longer operational, and NASA's Apollo 15 historical records include a photograph of its final parking position. Its present physical condition has not been directly inspected." }
+    ],
     // Stage 1: The Mission
     purpose: "The rover was designed to carry astronauts and scientific equipment across the Moon.\n\nIts purpose was to increase the distance and range of lunar exploration, allowing astronauts to visit more geological locations and collect additional scientific samples.",
     // Stage 2: The Discovery
@@ -163,7 +210,8 @@ const objects = [
       location: "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/",
       research: "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_15a_Summary.htm",
       image: "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/",
-      timeline: ["https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_15i_Timeline.htm", "https://www.nasa.gov/missions/apollo/apollo-15-mission-details/", "https://science.nasa.gov/resource/apollo-15-on-the-moon/"]
+      timeline: ["https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_15i_Timeline.htm", "https://www.nasa.gov/missions/apollo/apollo-15-mission-details/", "https://science.nasa.gov/resource/apollo-15-on-the-moon/"],
+      story: ["https://apolloexplorer.co.uk/books/sp-4214/ch13-3.html", "https://www.astronomy.com/observing/a-car-for-the-moon-the-lunar-roving-vehicle", "https://ccssc.org/apollo15rover", "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_15i_Timeline.htm", "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/"]
     }
   },
   // ---------- OBJECT 4 ----------
@@ -173,6 +221,22 @@ const objects = [
     missionDate: "July 20, 1976 (Mars landing); launched August 20, 1975",
     target: "Mars",
     description: "Viking 1 was NASA's first spacecraft to land successfully on Mars and return images from the planet's surface.\n\nIt was a stationary lander equipped with cameras, scientific instruments, a robotic arm, and experiments designed to investigate Martian soil and search for possible signs of life.",
+    story: [
+      { heading: "Two spacecraft in one",
+        text: "Viking 1 was really two spacecraft travelling together: an orbiter and a lander. They left Earth on August 20, 1975, and on June 19, 1976 the spacecraft entered orbit around Mars. From orbit it began studying possible landing areas." },
+      { heading: "A holiday given up",
+        text: "The first plan was to land on July 4, 1976, the 200th birthday of the United States. But when the orbiter sent back pictures of the first landing site, scientists found that the area was rougher than expected. The team chose a different site instead." },
+      { heading: "Touchdown on the Golden Plain",
+        text: "On July 20, 1976, the lander touched down on Chryse Planitia, the Golden Plain, and began sending the first images from the surface of Mars. Viking 1 returned the first photograph ever taken from the surface of Mars." },
+      { heading: "Digging for answers",
+        text: "On July 28, 1976, the lander's robotic arm collected its first samples of Martian soil for experiments. Some of the experiments were designed to search for possible signs of life. They produced unusual chemical results, but did not provide definitive evidence of living microorganisms." },
+      { heading: "Six years on the surface",
+        text: "Viking 1 kept working for more than six years, studying the Martian atmosphere, weather and soil. Its twin, Viking 2, landed later in 1976. The broader Viking mission, including its orbiters, helped scientists identify geological evidence of ancient water activity on Mars." },
+      { heading: "A lander with a new name",
+        text: "In January 1982, the lander was renamed the Thomas Mutch Memorial Station, in honor of the leader of the Viking imaging team, who had died in 1980." },
+      { heading: "A faulty command",
+        text: "On November 11, 1982, a faulty command sent from Earth interrupted communications with the lander. Engineers at NASA's Jet Propulsion Laboratory tried for months to regain contact, but they concluded that communications could not be re-established. The lander remains at its landing site, and its present physical condition has not been directly verified." }
+    ],
     // Stage 1: The Mission
     purpose: "Viking 1 was designed to investigate Mars, photograph its surface, study its soil and atmosphere, and conduct experiments to search for possible signs of life.\n\nIts scientific equipment included a camera system, a robotic soil sampler, a weather instrument package, and a biological laboratory.",
     // Stage 2: The Discovery
@@ -214,7 +278,8 @@ const objects = [
       location: "https://science.nasa.gov/mission/viking-1/",
       research: "https://www.jpl.nasa.gov/missions/viking-1/",
       image: "https://www.jpl.nasa.gov/images/pia09703-viking-lander-model/",
-      timeline: ["https://science.nasa.gov/mission/viking-1/", "https://science.nasa.gov/mission/viking/"]
+      timeline: ["https://science.nasa.gov/mission/viking-1/", "https://science.nasa.gov/mission/viking/"],
+      story: ["https://science.nasa.gov/?p=106445", "https://www.jpl.nasa.gov/news/attempts-to-communicate-to-viking-lander-1-concluded/", "https://science.nasa.gov/mission/viking-1/", "https://en.wikipedia.org/wiki/Viking_1"]
     }
   },
   // ---------- OBJECT 5 ----------
@@ -224,6 +289,22 @@ const objects = [
     missionDate: "January 24, 2004 (Mars landing); launched July 7, 2003",
     target: "Mars",
     description: "Opportunity was a NASA robotic rover sent to explore Mars and investigate whether liquid water had existed there in the past.\n\nIt was originally designed to operate for just 90 Martian days, but continued exploring the Red Planet for almost 15 years.",
+    story: [
+      { heading: "Built for 90 days",
+        text: "Opportunity was designed to operate for just 90 Martian days and to travel about 1 kilometre. Its mission was to explore Mars and investigate whether liquid water had existed there in the past." },
+      { heading: "A hole-in-one",
+        text: "Opportunity landed on January 24, 2004 in Pacific time, which was January 25 in UTC. Its airbag-cushioned lander hit the ground, bounced and rolled right into a small crater, later named Eagle Crater. Bare rock was exposed there, and it gave scientists some of the first clues about past water in the region." },
+      { heading: "Blueberries and ancient water",
+        text: "Opportunity found evidence that parts of Mars were once wet for extended periods. It discovered rocks and minerals associated with ancient water, including small spherical hematite-rich features that scientists nicknamed \"blueberries.\"" },
+      { heading: "Much farther than planned",
+        text: "Opportunity spent more than half of its planned three-month mission exploring Eagle Crater, then kept going. On July 26, 2004, it reached its 180th Martian day, twice its planned primary mission. It went on to visit much larger craters, and reached Endeavour Crater, about 1,000 times wider than Eagle, in 2011. In March 2015 it passed the distance of a marathon, 26.2 miles." },
+      { heading: "A rock from space",
+        text: "Along the way, Opportunity examined its own discarded heat shield and found a meteorite nearby, now known as Heat Shield Rock." },
+      { heading: "The storm",
+        text: "In 2018, a severe planet-wide dust storm reduced the sunlight reaching Opportunity's solar panels. NASA received the rover's last signal on June 10, 2018." },
+      { heading: "Two places on Mars",
+        text: "After more than a thousand commands to restore contact, NASA declared the mission over on February 13, 2019. Opportunity remains in Perseverance Valley, on the western rim of Endeavour Crater. Its landing platform was left behind in Eagle Crater, where the story began, and NASA's Mars Reconnaissance Orbiter photographed it there from orbit. The rover's present physical condition has not been directly verified." }
+    ],
     // Stage 1: The Mission
     purpose: "Opportunity was designed to explore Martian rocks and soil, study the planet's geology, and investigate locations where liquid water may once have existed.\n\nIts scientific instruments examined rock composition, textures, and evidence of past water activity.",
     // Stage 2: The Discovery
@@ -259,7 +340,8 @@ const objects = [
       location: "https://science.nasa.gov/resource/opportunitys-last-message/",
       research: "https://www.nasa.gov/news-release/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end/",
       image: "https://science.nasa.gov/photojournal/opportunitys-first-selfie/",
-      timeline: ["https://science.nasa.gov/mission/mer-opportunity/", "https://science.nasa.gov/missions/mer/nasas-opportunity-rover-mission-on-mars-comes-to-end/", "https://science.nasa.gov/resource/last-commands-to-opportunity/"]
+      timeline: ["https://science.nasa.gov/mission/mer-opportunity/", "https://science.nasa.gov/missions/mer/nasas-opportunity-rover-mission-on-mars-comes-to-end/", "https://science.nasa.gov/resource/last-commands-to-opportunity/"],
+      story: ["https://www.nasa.gov/image-feature/jpl/pia21494/rovers-landing-hardware-at-eagle-crater-mars", "https://science.nasa.gov/?p=995698", "https://skyandtelescope.org/astronomy-news/opportunity-end-long-road/", "https://science.nasa.gov/mission/mer-opportunity/", "https://www.nasa.gov/news-release/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end/"]
     }
   }
 ];

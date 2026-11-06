@@ -1,9 +1,19 @@
-// script.js - small functions that build the page from the information in data.js.
-// (index.html loads data.js first, so "objects" and "quizQuestions" are available here.)
+// script.js - small functions that build the pages from the information in data.js.
+// All three pages (index.html, explore.html, quiz.html) load data.js first and then this file,
+// so "objects" and "quizQuestions" are available here. The code at the very bottom builds
+// only the parts that exist on the current page.
 
+const SITE_NAME = "Abandoned but Not Forgotten";
 const EMPTY_MESSAGE = "Content will be added after NASA data collection.";
 let currentObject = 0;  // which object's story is open
-let currentStep = 0;    // 0 = The Mission, 1 = The Discovery, 2 = Where Is It Now?
+let currentStep = 0;    // 0 = The Mission, 1 = The Discovery, 2 = Where Is It Now?, 3 = Timeline
+
+// The three pages. They are used by the navigation bar and the footer.
+const PAGES = [
+  { id: "home", file: "index.html", label: "Home" },
+  { id: "explore", file: "explore.html", label: "Explore Objects" },
+  { id: "quiz", file: "quiz.html", label: "Quiz" }
+];
 
 // ===== Helpers =====
 // Makes text safe to put on the page: < > & " ' are turned into harmless characters,
@@ -59,22 +69,62 @@ function sourceLinks(value, fallback) {
   return list.map(function (item) { return sourceLink(item); }).join("<br>");
 }
 
-// ===== A. Hero photo strip: one small photo for every object that has an image =====
-function buildStrip() {
+// ===== Shared parts: the navigation bar and the footer (the same on all three pages) =====
+// Each page's <body> has data-page="home", "explore" or "quiz", which marks the current link.
+function buildNav() {
+  const header = document.getElementById("site-header");
+  const current = document.body.dataset.page;
+  let links = "";
+  PAGES.forEach(function (page) {
+    const here = (page.id === current) ? ' class="active" aria-current="page"' : "";
+    links += `<a href="${page.file}"${here}>${page.label}</a>`;
+  });
+  header.className = "site-header";
+  header.innerHTML = `
+    <nav class="navbar" aria-label="Main">
+      <a class="logo" href="index.html">${SITE_NAME}</a>
+      <div class="nav-links">${links}</div>
+    </nav>`;
+}
+
+function buildFooter() {
+  const footer = document.getElementById("site-footer");
+  let links = "";
+  PAGES.forEach(function (page) {
+    links += `<a href="${page.file}">${page.label}</a>`;
+  });
+  footer.className = "site-footer";
+  footer.innerHTML = `
+    <div class="wrap footer-grid">
+      <div>
+        <strong>${SITE_NAME}</strong>
+        <p>The stories of NASA equipment left behind on the Moon and Mars: their missions, discoveries and where they are now.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">${links}</nav>
+      <div>
+        <strong>NASA Space Apps 2026</strong>
+        <p>A project for the NASA Space Apps Challenge 2026. This is a student project and is not an official NASA website.</p>
+      </div>
+    </div>`;
+}
+
+// ===== Home page: photo collage, one photo for every object that has an image =====
+function buildCollage() {
+  const collage = document.getElementById("hero-collage");
   let html = "";
   objects.forEach(function (obj, i) {
     if (obj.image) {
       html += `
-        <button class="strip-item" onclick="openStory(${i})" aria-label="Open the story of ${esc(obj.name)}" title="${esc(obj.name)}">
+        <a href="explore.html#object-${i + 1}" title="${esc(obj.name)}" aria-label="Open the story of ${esc(obj.name)}">
           <img src="assets/${esc(obj.image)}" alt="${esc(obj.imageCaption || obj.name)}" style="object-position: ${esc(obj.imagePosition || "")}" onerror="this.parentNode.style.display='none'">
-        </button>`;
+        </a>`;
     }
   });
-  document.getElementById("hero-strip").innerHTML = html;
-  document.getElementById("strip-label").hidden = (html === "");
+  collage.innerHTML = html;
+  collage.hidden = (html === "");
 }
 
-// ===== B. Explore cards (one card for each object in data.js) =====
+// ===== Explore page: cards (one card for each object in data.js) =====
 function buildCards() {
   let html = "";
   objects.forEach(function (obj, i) {
@@ -83,7 +133,7 @@ function buildCards() {
     const firstParagraph = (obj.description || "").split("\n\n")[0];
     html += `
       <article class="card">
-        <a class="card-image" href="#story" onclick="openStory(${i}); return false;" aria-label="Explore the story of ${esc(label)}">
+        <a class="card-image" href="#object-${i + 1}" aria-label="Explore the story of ${esc(label)}">
           ${imageBox(obj.image, obj.imageCaption || label, obj.imagePosition)}
           ${chip(obj.target, "chip-target")}
         </a>
@@ -91,7 +141,7 @@ function buildCards() {
           <h3>${show(obj.name, "Object " + (i + 1))}</h3>
           <p class="card-meta">${show(obj.missionName, "Mission name to be added")}${year ? " · " + year : ""}</p>
           <p class="card-text">${show(firstParagraph, "Short description to be added.")}</p>
-          <button onclick="openStory(${i})">Explore story</button>
+          <a class="button" href="#object-${i + 1}">Explore Story</a>
         </div>
       </article>`;
   });
@@ -113,12 +163,45 @@ function getSteps(obj) {
   ];
 }
 
-// Called when a card, a card photo or a hero photo is clicked.
+// Shows the story named in the web address (explore.html#object-3), or the five cards when
+// the address names no object. Every card and button is a simple link such as href="#object-3".
+function showFromHash() {
+  const match = location.hash.match(/^#object-(\d+)$/);
+  const index = match ? Number(match[1]) - 1 : -1;
+  if (objects[index]) {
+    openStory(index);
+  } else {
+    closeStory();
+  }
+}
+
+// Back to the five cards.
+function closeStory() {
+  document.getElementById("overview").hidden = false;
+  document.getElementById("story").hidden = true;
+  document.title = "Explore Objects | " + SITE_NAME;
+}
+
+// "Previous object" and "Next object" links under the story.
+function buildObjectNav(index) {
+  function link(i, label, side) {
+    if (!objects[i]) { return "<span></span>"; }
+    return `<a class="${side}" href="#object-${i + 1}"><small>${label}</small>${show(objects[i].name, "Object " + (i + 1))}</a>`;
+  }
+  document.getElementById("object-nav").innerHTML =
+    link(index - 1, "← Previous object", "prev") +
+    `<a class="button secondary" href="#objects">All Objects</a>` +
+    link(index + 1, "Next object →", "next");
+}
+
+// Fills the story with the information of one object.
 function openStory(index) {
   const obj = objects[index];
   const label = obj.name || "Object " + (index + 1);
   currentObject = index;
+  document.getElementById("overview").hidden = true;
   document.getElementById("story").hidden = false;
+  document.title = label + " | " + SITE_NAME;
 
   // Large photo at the top, with its caption and credit
   document.getElementById("story-image").innerHTML = `
@@ -133,10 +216,33 @@ function openStory(index) {
     chip(obj.target, "chip-target") + chip(obj.missionName) + chip(getYear(obj)) + chip(stillThere);
   document.getElementById("story-description").innerHTML = show(obj.description);
 
+  buildChapters(obj);
   buildMorePhotos(obj);
   buildSources(obj);
+  buildObjectNav(index);
   goToStep(0);
-  document.getElementById("story").scrollIntoView();
+  window.scrollTo(0, 0);
+}
+
+// "The Full Story": short numbered chapters (story in data.js), shown above the four tabs.
+function buildChapters(obj) {
+  const chapters = obj.story || [];
+  let html = "";
+  chapters.forEach(function (chapter, i) {
+    html += `
+      <article class="chapter">
+        <span class="chapter-num">${i + 1}</span>
+        <div>
+          <h4>${esc(chapter.heading)}</h4>
+          <p>${esc(chapter.text)}</p>
+        </div>
+      </article>`;
+  });
+  document.getElementById("story-chapters").innerHTML = chapters.length
+    ? `<h3>The Full Story</h3>
+       <div class="chapters">${html}</div>
+       <p class="source">Sources for this story:<br>${sourceLinks(obj.sources.story, "To be added.")}</p>`
+    : "";
 }
 
 // Optional extra photos (moreImages in data.js), shown under the tour.
@@ -219,6 +325,7 @@ function buildSources(obj) {
   const rows = [
     ["NASA source: The Mission", s.mission], ["NASA source: The Discovery", s.discovery],
     ["NASA source: Where Is It Now?", s.location], ["NASA source: Timeline", s.timeline],
+    ["Sources: The Full Story", s.story],
     ["Research references", s.research],
     ["Image source", s.image], ["Image credit", obj.imageCredit]
   ];
@@ -247,21 +354,32 @@ function showQuestion() {
   // All questions answered: show the final results
   if (quizIndex >= quizQuestions.length) {
     box.innerHTML = `
-      <h3>Quiz complete</h3>
+      <h3>Briefing complete</h3>
+      <p class="big-score">${score} / ${quizQuestions.length}</p>
       <p>You scored ${score} out of ${quizQuestions.length}.</p>
-      <button onclick="restartQuiz()">Restart Quiz</button>`;
+      <div class="button-row">
+        <button onclick="restartQuiz()">Restart Quiz</button>
+        <a class="button secondary" href="explore.html">Explore Objects</a>
+      </div>`;
     return;
   }
   // Otherwise show the current question with its four options
   const q = quizQuestions[quizIndex];
+  const percent = (quizIndex + 1) / quizQuestions.length * 100;  // question progress bar
+  // The related object becomes a link to its story on the Explore page
+  const relatedIndex = objects.findIndex(function (o) { return o.name === q.object; });
+  const related = relatedIndex >= 0
+    ? `<a href="explore.html#object-${relatedIndex + 1}">${esc(q.object)}</a>`
+    : esc(q.object || "");
   let options = "";
   q.options.forEach(function (text, i) {
     options += `<label class="option"><input type="radio" name="answer" value="${i + 1}"> ${esc(text)}</label>`;
   });
   box.innerHTML = `
     <p class="meta">Question ${quizIndex + 1} of ${quizQuestions.length} | Score: <span id="score">${score}</span></p>
+    <div class="progress"><div id="quiz-bar" style="width: ${percent}%"></div></div>
     <h3>${esc(q.question)}</h3>
-    ${q.object ? `<p class="meta">Related object: ${esc(q.object)}</p>` : ""}
+    ${q.object ? `<p class="meta">Related object: ${related}</p>` : ""}
     ${options}
     <p id="feedback"></p>
     <button id="submit-btn" onclick="submitAnswer()">Submit Answer</button>
@@ -291,7 +409,18 @@ function submitAnswer() {
 function nextQuestion() { quizIndex = quizIndex + 1; showQuestion(); }
 function restartQuiz() { quizIndex = 0; score = 0; showQuestion(); }
 
-// ===== Start: build the cards, the hero photo strip and the quiz when the page loads =====
-buildCards();
-buildStrip();
-showQuestion();
+// ===== Start: build only the parts that exist on the current page =====
+buildNav();
+buildFooter();
+
+if (document.getElementById("hero-collage")) {  // home page
+  buildCollage();
+}
+if (document.getElementById("cards")) {         // explore page
+  buildCards();
+  window.addEventListener("hashchange", showFromHash);
+  showFromHash();
+}
+if (document.getElementById("quiz-box")) {      // quiz page
+  showQuestion();
+}
