@@ -11,6 +11,7 @@
 //  7. Sources: type the full web address (https://...). It becomes a clickable link.
 //  8. moreImages (optional): extra photos shown under the story. Each one needs
 //     image (file name), caption, credit and source. Use moreImages: [] for none.
+//     Add wide: true to a very wide panorama so it is shown across the full width.
 //  9. imagePosition (optional): moves the crop of the main photo, e.g. "center 60%".
 // 10. timeline (Stage 4): a list of events. Each event has date, title, text and (optional)
 //     key: true to highlight an important moment. timelineLocation, timelineHighlight and
@@ -315,10 +316,23 @@ const objects = [
     stillThere: "Yes, at its last known location",
     status: "A severe Mars-wide dust storm reduced sunlight reaching the rover's solar panels in 2018. Its last communication was received on June 10, 2018. After more than a thousand commands to restore contact, NASA officially declared the mission over on February 13, 2019. Its present physical condition has not been directly verified.",
     // Image (the file is in assets/)
-    image: "opportunity.jpg",
-    imageCaption: "Opportunity's self-portrait at Perseverance Valley on the slopes of Endeavour Crater, taken during its mission on Mars.",
-    imageCredit: "NASA/JPL-Caltech",
-    moreImages: [],
+    image: "opportunity-artist-concept.jpg",
+    imageCaption: "An artist's concept of a NASA Mars Exploration Rover on the surface of Mars, the same type of rover as Opportunity. This is an illustration, not a photograph.",
+    imageCredit: "NASA/JPL/Cornell University",
+    moreImages: [
+      { image: "PIA10229.jpg", wide: true,
+        caption: "Opportunity's \"Lyell\" panorama inside Victoria Crater, shown in false color. The rover's own deck and solar panels fill the foreground.",
+        credit: "NASA/JPL-Caltech/Cornell University",
+        source: "https://photojournal.jpl.nasa.gov/catalog/PIA10229" },
+      { image: "PIA18079.jpg",
+        caption: "A self-portrait of Opportunity taken by its panoramic camera in March 2014, after winds had removed much of the dust from its solar panels.",
+        credit: "NASA/JPL-Caltech/Cornell Univ./Arizona State Univ.",
+        source: "https://science.nasa.gov/photojournal/self-portrait-by-freshly-cleaned-opportunity-mars-rover-in-march-2014" },
+      { image: "opportunity.jpg",
+        caption: "Opportunity's self-portrait at Perseverance Valley on the slopes of Endeavour Crater, taken during its mission on Mars.",
+        credit: "NASA/JPL-Caltech",
+        source: "https://science.nasa.gov/photojournal/opportunitys-first-selfie/" }
+    ],
     timelineLocation: "Mars — Meridiani Planum / Perseverance Valley",
     timeline: [
       { date: "July 7, 2003", title: "Launch",
@@ -339,7 +353,7 @@ const objects = [
       discovery: "https://science.nasa.gov/resource/meridiani-planum-2/",
       location: "https://science.nasa.gov/resource/opportunitys-last-message/",
       research: "https://www.nasa.gov/news-release/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end/",
-      image: "https://science.nasa.gov/photojournal/opportunitys-first-selfie/",
+      image: "https://www.jpl.nasa.gov/images/pia04413-artists-concept-of-rover-on-mars",
       timeline: ["https://science.nasa.gov/mission/mer-opportunity/", "https://science.nasa.gov/missions/mer/nasas-opportunity-rover-mission-on-mars-comes-to-end/", "https://science.nasa.gov/resource/last-commands-to-opportunity/"],
       story: ["https://www.nasa.gov/image-feature/jpl/pia21494/rovers-landing-hardware-at-eagle-crater-mars", "https://science.nasa.gov/?p=995698", "https://skyandtelescope.org/astronomy-news/opportunity-end-long-road/", "https://science.nasa.gov/mission/mer-opportunity/", "https://www.nasa.gov/news-release/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end/"]
     }

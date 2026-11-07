@@ -251,7 +251,7 @@ function buildMorePhotos(obj) {
   let html = "";
   extras.forEach(function (m) {
     html += `
-      <figure>
+      <figure${m.wide ? ' class="wide"' : ""}>
         ${imageBox(m.image, m.caption || obj.name, m.position)}
         <figcaption>${show(m.caption, "Image caption to be added.")}<br>
         Credit: ${show(m.credit, "Image credit to be added.")}</figcaption>
