@@ -65,10 +65,9 @@ function sourceLink(text, fallback) {
 function imageBox(file, alt, position) {
   const style = position ? ` style="object-position: ${esc(position)}"` : "";  // optional crop position
   const img = file
-    ? `<img src="assets/${esc(file)}" alt="${esc(alt)}"${style} onerror="this.style.display='none'; this.parentNode.classList.add('no-photo')">`
+    ? `<img src="assets/${esc(file)}" alt="${esc(alt)}"${style} onerror="this.style.display='none'">`
     : "";
-  // "wm" adds the NEBIX watermark (see style.css). Boxes without a photo get no watermark.
-  return `<div class="image-box${file ? " wm" : ""}">Image coming soon${img}</div>`;
+  return `<div class="image-box">Image coming soon${img}</div>`;
 }
 
 // A small rounded label, for example "Moon" or "1969". Empty text gives no chip.
@@ -119,12 +118,9 @@ function buildFooter() {
   footer.className = "site-footer";
   footer.innerHTML = `
     <div class="wrap footer-grid">
-      <div class="footer-brand">
-        <a href="index.html">${logoImg("footer-logo")}</a>
-        <div>
-          <strong>${SITE_NAME}</strong>
-          <p>The stories of NASA equipment left behind on the Moon and Mars: their missions, discoveries and where they are now.</p>
-        </div>
+      <div>
+        <strong>${SITE_NAME}</strong>
+        <p>The stories of NASA equipment left behind on the Moon and Mars: their missions, discoveries and where they are now.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">${links}</nav>
       <div>
@@ -136,11 +132,8 @@ function buildFooter() {
     <p class="wrap footer-note">NASA photographs and information are credited to NASA and the sources listed in each object's Sources and Credits box. NEBIX branding identifies this website, not ownership of NASA images.</p>`;
 }
 
-// Team signature (home hero and quiz introduction) and the larger logo in the home page credits.
+// The logo in the home page credits section.
 function buildTeamBits() {
-  document.querySelectorAll("[data-signature]").forEach(function (el) {
-    el.innerHTML = `<a href="index.html">${logoImg("signature-logo")}</a><span>${esc(CREDIT_LINE)}</span>`;
-  });
   document.querySelectorAll("[data-team-logo]").forEach(function (el) {
     el.innerHTML = `<a href="index.html">${logoImg("team-logo")}</a>`;
   });
@@ -153,7 +146,7 @@ function buildCollage() {
   objects.forEach(function (obj, i) {
     if (obj.image) {
       html += `
-        <a class="wm" href="explore.html#object-${i + 1}" title="${esc(obj.name)}" aria-label="Open the story of ${esc(obj.name)}">
+        <a href="explore.html#object-${i + 1}" title="${esc(obj.name)}" aria-label="Open the story of ${esc(obj.name)}">
           <img src="assets/${esc(obj.image)}" alt="${esc(obj.imageCaption || obj.name)}" style="object-position: ${esc(obj.imagePosition || "")}" onerror="this.parentNode.style.display='none'">
         </a>`;
     }
