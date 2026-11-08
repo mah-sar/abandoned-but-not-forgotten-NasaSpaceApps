@@ -279,7 +279,7 @@ const objects = [
       research: "https://www.jpl.nasa.gov/missions/viking-1/",
       image: "https://science.nasa.gov/photojournal/first-photograph-taken-on-mars-surface/",
       timeline: ["https://science.nasa.gov/mission/viking-1/", "https://science.nasa.gov/mission/viking/"],
-      story: ["https://science.nasa.gov/?p=106445", "https://www.jpl.nasa.gov/news/attempts-to-communicate-to-viking-lander-1-concluded/", "https://science.nasa.gov/mission/viking-1/", "https://en.wikipedia.org/wiki/Viking_1"]
+      story: ["https://science.nasa.gov/?p=106445", "https://www.jpl.nasa.gov/news/attempts-to-communicate-to-viking-lander-1-concluded/", "https://science.nasa.gov/mission/viking-1/"]
     }
   },
   // ---------- OBJECT 5 ----------
