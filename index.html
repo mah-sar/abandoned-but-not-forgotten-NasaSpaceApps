@@ -6,6 +6,7 @@
   <meta name="description" content="The stories of NASA equipment left behind on the Moon and Mars. A NASA Space Apps 2026 student project.">
   <title>Abandoned but Not Forgotten</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
 <body data-page="home">
 
@@ -17,13 +18,15 @@
     <section class="hero">
       <div class="wrap hero-grid">
         <div class="hero-text">
-          <h1>Abandoned but Not Forgotten</h1>
+          <h1>Abandoned but <span class="hl">Not Forgotten</span></h1>
           <p class="subtitle">Every mission leaves something behind. Every object has a story.</p>
           <p>Across the Moon and Mars, NASA missions have left behind spacecraft, scientific instruments and exploration equipment. Though their missions have ended, their stories and contributions to science remain.</p>
           <div class="button-row">
             <a class="button" href="explore.html">Explore the Objects</a>
             <a class="button secondary" href="quiz.html">Take the Quiz</a>
           </div>
+          <!-- Team signature: built by script.js -->
+          <p class="signature" data-signature></p>
         </div>
         <div id="hero-collage" class="collage" role="group" aria-label="Photographs of the objects. Select one to open its story."></div>
       </div>
@@ -76,6 +79,19 @@
         <div class="button-row">
           <a class="button" href="explore.html">Explore the Objects</a>
           <a class="button secondary" href="quiz.html">Take the Quiz</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CREDITS: the team behind the website (also the target of the footer's "Sources and Credits" link) -->
+    <section id="credits" class="team">
+      <div class="panel team-panel">
+        <div data-team-logo></div>
+        <div class="team-text">
+          <h2>Made by NEBIX</h2>
+          <p class="team-line">Designed &amp; developed by NEBIX</p>
+          <p class="team-line">NEBIX &mdash; NASA Space Apps Challenge 2026</p>
+          <p>Photographs and facts are credited to NASA and the sources listed in the Sources and Credits box of every object story. NEBIX branding identifies this website and our project work, not ownership of NASA images.</p>
         </div>
       </div>
     </section>

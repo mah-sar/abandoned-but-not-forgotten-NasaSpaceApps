@@ -8,6 +8,10 @@ const EMPTY_MESSAGE = "Content will be added after NASA data collection.";
 let currentObject = 0;  // which object's story is open
 let currentStep = 0;    // 0 = The Mission, 1 = The Discovery, 2 = Where Is It Now?, 3 = Timeline
 
+// Team branding. These texts are used on every page, so change them here only.
+const CREDIT_LINE = "Designed & developed by NEBIX";
+const EVENT_LINE = "NEBIX \u2014 NASA Space Apps Challenge 2026";
+
 // The three pages. They are used by the navigation bar and the footer.
 const PAGES = [
   { id: "home", file: "index.html", label: "Home" },
@@ -16,6 +20,23 @@ const PAGES = [
 ];
 
 // ===== Helpers =====
+
+// The NEBIX logo (assets/nebix-logo.png). If the file is missing, the plain text NEBIX is shown instead.
+function logoImg(extraClass) {
+  return `<img class="nebix-logo ${extraClass || ""}" src="assets/nebix-logo.png" alt="NEBIX team logo: a moon with a teal orbit" onerror="logoFallback(this)">`;
+}
+function logoFallback(img) {
+  const text = document.createElement("span");
+  text.className = "nebix-text";
+  text.textContent = "NEBIX";
+  img.replaceWith(text);
+}
+
+// "moon" or "mars" (from the target field), used to give cards and stories a Moon or Mars accent color.
+function worldOf(obj) {
+  const target = (obj.target || "").toLowerCase();
+  return (target === "moon" || target === "mars") ? target : "";
+}
 // Makes text safe to put on the page: < > & " ' are turned into harmless characters,
 // so text from data.js is always shown as plain text and never runs as HTML or JavaScript.
 function esc(text) {
@@ -44,9 +65,10 @@ function sourceLink(text, fallback) {
 function imageBox(file, alt, position) {
   const style = position ? ` style="object-position: ${esc(position)}"` : "";  // optional crop position
   const img = file
-    ? `<img src="assets/${esc(file)}" alt="${esc(alt)}"${style} onerror="this.style.display='none'">`
+    ? `<img src="assets/${esc(file)}" alt="${esc(alt)}"${style} onerror="this.style.display='none'; this.parentNode.classList.add('no-photo')">`
     : "";
-  return `<div class="image-box">Image coming soon${img}</div>`;
+  // "wm" adds the NEBIX watermark (see style.css). Boxes without a photo get no watermark.
+  return `<div class="image-box${file ? " wm" : ""}">Image coming soon${img}</div>`;
 }
 
 // A small rounded label, for example "Moon" or "1969". Empty text gives no chip.
@@ -82,7 +104,7 @@ function buildNav() {
   header.className = "site-header";
   header.innerHTML = `
     <nav class="navbar" aria-label="Main">
-      <a class="logo" href="index.html">${SITE_NAME}</a>
+      <a class="brand" href="index.html">${logoImg("brand-logo")}<span class="logo">${SITE_NAME}</span></a>
       <div class="nav-links">${links}</div>
     </nav>`;
 }
@@ -93,19 +115,35 @@ function buildFooter() {
   PAGES.forEach(function (page) {
     links += `<a href="${page.file}">${page.label}</a>`;
   });
+  links += `<a href="index.html#credits">Sources and Credits</a>`;
   footer.className = "site-footer";
   footer.innerHTML = `
     <div class="wrap footer-grid">
-      <div>
-        <strong>${SITE_NAME}</strong>
-        <p>The stories of NASA equipment left behind on the Moon and Mars: their missions, discoveries and where they are now.</p>
+      <div class="footer-brand">
+        <a href="index.html">${logoImg("footer-logo")}</a>
+        <div>
+          <strong>${SITE_NAME}</strong>
+          <p>The stories of NASA equipment left behind on the Moon and Mars: their missions, discoveries and where they are now.</p>
+        </div>
       </div>
       <nav class="footer-links" aria-label="Footer">${links}</nav>
       <div>
-        <strong>NASA Space Apps 2026</strong>
-        <p>A project for the NASA Space Apps Challenge 2026. This is a student project and is not an official NASA website.</p>
+        <strong>${esc(CREDIT_LINE)}</strong>
+        <p>${esc(EVENT_LINE)}</p>
+        <p class="fine">This is a student project and is not an official NASA website.</p>
       </div>
-    </div>`;
+    </div>
+    <p class="wrap footer-note">NASA photographs and information are credited to NASA and the sources listed in each object's Sources and Credits box. NEBIX branding identifies this website, not ownership of NASA images.</p>`;
+}
+
+// Team signature (home hero and quiz introduction) and the larger logo in the home page credits.
+function buildTeamBits() {
+  document.querySelectorAll("[data-signature]").forEach(function (el) {
+    el.innerHTML = `<a href="index.html">${logoImg("signature-logo")}</a><span>${esc(CREDIT_LINE)}</span>`;
+  });
+  document.querySelectorAll("[data-team-logo]").forEach(function (el) {
+    el.innerHTML = `<a href="index.html">${logoImg("team-logo")}</a>`;
+  });
 }
 
 // ===== Home page: photo collage, one photo for every object that has an image =====
@@ -115,7 +153,7 @@ function buildCollage() {
   objects.forEach(function (obj, i) {
     if (obj.image) {
       html += `
-        <a href="explore.html#object-${i + 1}" title="${esc(obj.name)}" aria-label="Open the story of ${esc(obj.name)}">
+        <a class="wm" href="explore.html#object-${i + 1}" title="${esc(obj.name)}" aria-label="Open the story of ${esc(obj.name)}">
           <img src="assets/${esc(obj.image)}" alt="${esc(obj.imageCaption || obj.name)}" style="object-position: ${esc(obj.imagePosition || "")}" onerror="this.parentNode.style.display='none'">
         </a>`;
     }
@@ -132,7 +170,7 @@ function buildCards() {
     const year = getYear(obj);
     const firstParagraph = (obj.description || "").split("\n\n")[0];
     html += `
-      <article class="card">
+      <article class="card" data-world="${worldOf(obj)}">
         <a class="card-image" href="#object-${i + 1}" aria-label="Explore the story of ${esc(label)}">
           ${imageBox(obj.image, obj.imageCaption || label, obj.imagePosition)}
           ${chip(obj.target, "chip-target")}
@@ -201,6 +239,7 @@ function openStory(index) {
   currentObject = index;
   document.getElementById("overview").hidden = true;
   document.getElementById("story").hidden = false;
+  document.getElementById("story").dataset.world = worldOf(obj);  // Moon or Mars accent color
   document.title = label + " | " + SITE_NAME;
 
   // Large photo at the top, with its caption and credit
@@ -401,6 +440,9 @@ function submitAnswer() {
   document.getElementById("score").textContent = score;
   // Lock the answers, then swap Submit for Next (or "See Results" on the last question)
   document.querySelectorAll('input[name="answer"]').forEach(function (r) { r.disabled = true; });
+  // Mark the options: the right answer turns green, a wrong choice turns red
+  document.querySelectorAll(".option")[q.correct - 1].classList.add("is-correct");
+  if (!isCorrect) { chosen.parentNode.classList.add("is-wrong"); }
   document.getElementById("submit-btn").hidden = true;
   document.getElementById("next-q-btn").hidden = false;
   if (quizIndex === quizQuestions.length - 1) { document.getElementById("next-q-btn").textContent = "See Results"; }
@@ -412,6 +454,7 @@ function restartQuiz() { quizIndex = 0; score = 0; showQuestion(); }
 // ===== Start: build only the parts that exist on the current page =====
 buildNav();
 buildFooter();
+buildTeamBits();
 
 if (document.getElementById("hero-collage")) {  // home page
   buildCollage();

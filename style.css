@@ -1,18 +1,66 @@
 /* style.css - all the styling for the website.
    To change the colors, edit the variables in section 1. */
 
-/* ===== 1. COLORS (change them here) ===== */
+/* ===== 1. COLORS (change them here) =====
+   Colors shared by every page come first. Then each page has its own theme, chosen with the
+   data-page attribute on its <body> tag:  Home = cosmic violet, Explore = lunar silver and
+   Martian orange, Quiz = deep teal. The fonts, layout, navigation and footer are the same everywhere. */
 :root {
-  --bg: #0a0f1e;      /* page background (dark navy) */
-  --panel: #131b33;   /* cards and boxes */
-  --border: #263356;  /* thin lines */
   --text: #ffffff;    /* main text */
-  --muted: #aab5d0;   /* secondary text */
-  --blue: #5aa9ff;    /* blue accent (step 1) */
-  --orange: #ff8c42;  /* orange accent (step 2) */
-  --ice: #dbe6ff;     /* pale accent (step 3) */
-  --mint: #7ee0c3;    /* soft green accent (step 4, Timeline) */
+  --blue: #5aa9ff;    /* the four story steps keep the same colors on every page */
+  --orange: #ff8c42;
+  --ice: #dbe6ff;
+  --mint: #7ee0c3;
+  --good: #8ae66e;    /* a correct answer */
+  --bad: #ff8f80;     /* a wrong answer */
+  --logo-bg: #10293a; /* background behind the NEBIX logo */
 }
+
+/* HOME: cosmic violet (also the fallback if a page has no data-page) */
+:root, body[data-page="home"] {
+  --bg: #0e0a24;      /* page background (midnight purple) */
+  --bg-2: #150f35;    /* bands and footer */
+  --panel: #1b1442;   /* cards and boxes */
+  --border: #3d3180;  /* thin lines */
+  --muted: #c9c3e8;   /* secondary text */
+  --primary: #b9a2ff; /* links and headings (lavender) */
+  --secondary: #5fe3f0; /* highlights (soft cyan) */
+  --btn-bg: #9b7bff;  /* main buttons (violet) */
+  --btn-text: #0e0a24;
+  --glow-1: rgba(139, 92, 246, 0.32);  /* soft background glows */
+  --glow-2: rgba(34, 211, 238, 0.16);
+}
+/* EXPLORE: lunar silver and Martian orange (each card and story also gets a Moon or Mars accent, see section 6) */
+body[data-page="explore"] {
+  --bg: #101216;      /* charcoal */
+  --bg-2: #15181d;
+  --panel: #1b1f26;
+  --border: #3a404c;
+  --muted: #bcc3cf;
+  --primary: #a9c8ec; /* pale blue */
+  --secondary: #f08a4b; /* copper */
+  --btn-bg: #f08a4b;
+  --btn-text: #1a0f08;
+  --glow-1: rgba(224, 130, 70, 0.16);
+  --glow-2: rgba(169, 200, 236, 0.10);
+}
+/* QUIZ: deep teal, like a mission-control screen */
+body[data-page="quiz"] {
+  --bg: #06171a;
+  --bg-2: #082126;
+  --panel: #0d2a30;
+  --border: #21636a;
+  --muted: #a8d1d0;
+  --primary: #5eead4; /* turquoise */
+  --secondary: #a7f3d0; /* mint */
+  --btn-bg: #2dd4bf;
+  --btn-text: #021214;
+  --glow-1: rgba(45, 212, 191, 0.22);
+  --glow-2: rgba(167, 243, 208, 0.08);
+}
+/* Moon and Mars accents for the cards and stories on the Explore page */
+[data-world="moon"] { --world: #cfd8e6; }  /* silver */
+[data-world="mars"] { --world: #ff8a5c; }  /* warm orange */
 
 /* ===== 2. BASIC PAGE ===== */
 * { box-sizing: border-box; }
@@ -20,35 +68,68 @@
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image:   /* two soft glows at the top of the page */
+    radial-gradient(ellipse 70% 520px at 15% 0, var(--glow-1), transparent),
+    radial-gradient(ellipse 55% 460px at 92% 0, var(--glow-2), transparent);
+  background-repeat: no-repeat;
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   line-height: 1.6;
+}
+body[data-page="quiz"] {  /* faint grid lines, like the NEBIX logo background */
+  background-image:
+    radial-gradient(ellipse 70% 520px at 15% 0, var(--glow-1), transparent),
+    radial-gradient(ellipse 55% 460px at 92% 0, var(--glow-2), transparent),
+    linear-gradient(rgba(94, 234, 212, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 234, 212, 0.05) 1px, transparent 1px);
+  background-size: auto, auto, 44px 44px, 44px 44px;
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
 }
 section, .wrap { max-width: 1000px; margin: 0 auto; }
 section { padding: 60px 20px; }
 .wrap { padding: 0 20px; }
 h1, h2, h3 { line-height: 1.2; margin: 0 0 12px; }
-a { color: var(--blue); }
-:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+section > h2::after {  /* a short colored line under the main headings */
+  content: ""; display: block; width: 56px; height: 3px; margin-top: 10px; border-radius: 2px;
+  background: var(--world, linear-gradient(90deg, var(--primary), var(--secondary)));
+}
+a { color: var(--primary); }
+:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
 .empty { color: var(--muted); font-style: italic; }
 .meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 8px; }
 
-/* ===== 3. NAVIGATION, HERO AND HOME PAGE ===== */
-.site-header { border-bottom: 1px solid var(--border); }
+/* ===== 3. NAVIGATION, NEBIX LOGO, HERO AND HOME PAGE ===== */
+.site-header { border-bottom: 1px solid var(--border); background: rgba(0, 0, 0, 0.18); }
 .navbar {
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px 20px;
-  max-width: 1000px; margin: 0 auto; padding: 14px 20px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 20px;
+  max-width: 1000px; margin: 0 auto; padding: 10px 20px;
 }
-.logo { color: var(--text); font-weight: bold; text-decoration: none; }
+.brand { display: flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; }
+.logo { font-weight: bold; font-size: 1.05rem; }
 .nav-links a {
-  margin-left: 22px; padding: 4px 0; color: var(--muted); text-decoration: none;
+  margin-left: 22px; padding: 8px 0; color: var(--muted); text-decoration: none;
   border-bottom: 2px solid transparent;
 }
-.nav-links a:hover { color: var(--text); }
-.nav-links a.active { color: var(--text); border-bottom-color: var(--orange); }  /* the page you are on */
+.nav-links a.active { color: var(--text); border-bottom-color: var(--secondary); }  /* the page you are on */
 
-.subtitle { color: var(--blue); font-size: 1.25rem; }
+/* The NEBIX logo keeps its own proportions (the image is never stretched) */
+.nebix-logo {
+  display: block; width: auto; max-width: 100%; object-fit: contain;
+  background: var(--logo-bg); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 8px;
+}
+.brand-logo { height: 46px; }
+.signature-logo { height: 36px; }
+.team-logo { height: 130px; }
+.footer-logo { height: 64px; }
+.nebix-text {  /* shown instead of the logo if the logo file is missing */
+  display: inline-block; padding: 6px 10px; background: var(--panel); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-weight: 800; letter-spacing: 3px;
+}
+.signature { display: flex; align-items: center; gap: 12px; margin-top: 26px; color: var(--muted); font-size: 0.92rem; }
+.signature a { display: block; }
+
+.subtitle { color: var(--primary); font-size: 1.25rem; }
 .lead { max-width: 70ch; color: var(--muted); font-size: 1.05rem; }
 .button-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
 
@@ -56,12 +137,16 @@ a { color: var(--blue); }
 .hero { max-width: none; padding: 64px 0 56px; border-bottom: 1px solid var(--border); }
 .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; }
 .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+.hl { color: var(--primary); }
 .hero-text p { max-width: 540px; }
 .collage { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.collage a { display: block; overflow: hidden; aspect-ratio: 4 / 3; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; }
-.collage a:first-child { grid-column: 1 / -1; aspect-ratio: 2 / 1; }  /* the first photo is wide */
-.collage img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
-.collage a:hover img { opacity: 1; }
+.collage a {
+  position: relative; display: block; overflow: hidden; aspect-ratio: 4 / 3; background: var(--bg-2);
+  border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  --stamp: 34px; --wm-size: 190px;
+}
+.collage a:first-child { grid-column: 1 / -1; aspect-ratio: 2 / 1; --stamp: 46px; --wm-size: 250px; }  /* the first photo is wide */
+.collage img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.92; }
 
 /* Title area at the top of the Explore and Quiz pages */
 .page-head { padding: 48px 0 28px; border-bottom: 1px solid var(--border); }
@@ -70,10 +155,11 @@ a { color: var(--blue); }
 
 /* Home page sections */
 .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
-.info-grid .panel { padding: 20px; }
-.info-grid h3 { color: var(--blue); font-size: 1.05rem; }
+.info-grid .panel { padding: 20px; border-top: 3px solid var(--primary); }
+.info-grid .panel:nth-child(even) { border-top-color: var(--secondary); }
+.info-grid h3 { color: var(--primary); font-size: 1.05rem; }
 .info-grid p { margin: 0; color: var(--muted); }
-.band { background: rgba(19, 27, 51, 0.6); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.band { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 24px 0 0; padding: 0; list-style: none; }
 .step-card { padding: 18px; background: var(--panel); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 10px; }
 .step-card .num {
@@ -82,21 +168,24 @@ a { color: var(--blue); }
 }
 .step-card h3 { font-size: 1.1rem; }
 .step-card p { margin: 0; color: var(--muted); }
-.matters .panel { padding: 36px 24px; text-align: center; border-top: 4px solid var(--orange); }
-.matters .big { max-width: 28ch; margin: 0 auto 12px; font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: bold; }
+.matters .panel { padding: 36px 24px; text-align: center; border-top: 4px solid var(--secondary); }
+.matters .big { max-width: 28ch; margin: 0 auto 12px; color: var(--text); font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: bold; }
 .matters p { max-width: 60ch; margin-left: auto; margin-right: auto; color: var(--muted); }
-.matters .big { color: var(--text); }
 .matters .button-row { justify-content: center; }
+.team-panel { display: flex; align-items: center; gap: 28px; padding: 28px; border-top: 4px solid var(--primary); }
+.team-panel a { display: block; }
+.team-text h2 { margin-bottom: 8px; }
+.team-line { margin: 0 0 4px; font-weight: bold; }
+.team-text p:last-child { margin: 12px 0 0; max-width: 62ch; color: var(--muted); font-size: 0.95rem; }
 
 /* ===== 4. BUTTONS, CARDS AND PANELS ===== */
 button, .button {
-  display: inline-block; background: var(--orange); color: #000;
-  border: 1px solid var(--orange); border-radius: 6px; padding: 10px 20px;
+  display: inline-block; background: var(--btn-bg); color: var(--btn-text);
+  border: 1px solid var(--btn-bg); border-radius: 8px; padding: 11px 20px; min-height: 44px;
   font-size: 1rem; font-weight: bold; text-decoration: none; cursor: pointer;
 }
-button:hover, .button:hover { filter: brightness(1.1); }
 button:disabled { opacity: 0.4; cursor: not-allowed; }
-.secondary { background: transparent; color: var(--text); border-color: var(--blue); }
+.secondary { background: transparent; color: var(--text); border-color: var(--primary); }
 
 .card, .panel {
   background: var(--panel); border: 1px solid var(--border);
@@ -106,44 +195,61 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
 .chip {
   display: inline-block; padding: 3px 12px; border: 1px solid var(--border); border-radius: 999px;
-  background: rgba(10, 15, 30, 0.85); color: var(--muted); font-size: 0.85rem;
+  background: rgba(0, 0, 0, 0.55); color: var(--muted); font-size: 0.85rem;
 }
-.chip-target { color: var(--orange); border-color: var(--orange); }
+.chip-target { color: var(--world, var(--secondary)); border-color: var(--world, var(--secondary)); }
 
 /* Image box: shows a placeholder, and the photo on top of it once it loads */
 .image-box {
   position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9;
-  background: #0d1428; border: 1px dashed var(--border); border-radius: 8px;
+  background: var(--bg-2); border: 1px dashed var(--border); border-radius: 8px;
   color: var(--muted); font-size: 0.9rem; overflow: hidden;
 }
 .image-box img {
-  position: absolute; inset: 0; width: 100%; height: 100%; background: #0d1428;
+  position: absolute; inset: 0; width: 100%; height: 100%; background: var(--bg-2);
   object-fit: cover; object-position: center 35%;  /* fills the box; change 35% to move the crop up or down */
 }
 
-/* Explore cards: a big photo on top, then the text */
+/* ===== 5. NEBIX WATERMARK ON PHOTOGRAPHS =====
+   Photos get a faint diagonal text pattern (assets/nebix-watermark.svg) and a small NEBIX logo stamp in
+   the bottom-right corner. It sits on top of the picture only: the NASA credit under each photo stays
+   plain text, and the watermark never blocks clicks, text selection or right-click. */
+.wm::before, .wm::after { content: ""; position: absolute; z-index: 2; pointer-events: none; }
+.wm::after { inset: 0; background: url(assets/nebix-watermark.svg) center / var(--wm-size, 240px) auto repeat; }
+.wm::before {
+  right: 8px; bottom: 8px; width: var(--stamp, 44px); aspect-ratio: 620 / 520; padding: 3px;
+  background: url(assets/nebix-logo.png) content-box center / contain no-repeat, rgba(4, 14, 22, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 8px;
+}
+.wm.no-photo::before, .wm.no-photo::after { display: none; }  /* no watermark if the photo failed to load */
+
+/* ===== 6. EXPLORE CARDS ===== */
 .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-.card { flex: 0 1 300px; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
-.card:hover { border-color: var(--blue); }
+.card {
+  flex: 0 1 300px; display: flex; flex-direction: column; padding: 0; overflow: hidden;
+  border-top: 3px solid var(--world, var(--border)); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
 .card-image { position: relative; display: block; color: var(--muted); text-decoration: none; }
-.card .image-box { aspect-ratio: 3 / 2; border: 0; border-radius: 0; }  /* same photo height on every card */
-.card-image:hover img { filter: brightness(1.1); }
+.card .image-box { aspect-ratio: 3 / 2; border: 0; border-radius: 0; --stamp: 40px; --wm-size: 210px; }  /* same photo height on every card */
 .card-image .chip { position: absolute; top: 10px; left: 10px; }
 .card-body { display: flex; flex: 1; flex-direction: column; padding: 16px; }
 .card h3 { margin: 0 0 4px; }
-.card-meta { margin: 0 0 10px; color: var(--blue); font-size: 0.9rem; }
+.card-meta { margin: 0 0 10px; color: var(--world, var(--primary)); font-size: 0.9rem; }
 .card-text {  /* short description: shows at most 4 lines */
   margin: 0 0 16px; color: var(--muted); font-size: 0.95rem;
   display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
 }
 .card .button { margin-top: auto; text-align: center; }
 
-/* ===== 5. STORY AND TIMELINE TOUR ===== */
+/* ===== 7. STORY AND TIMELINE TOUR ===== */
 figure { margin: 0; }
 figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 .story-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
 #story-image { margin-top: 16px; }
-#story-image .image-box { width: 100%; aspect-ratio: 2 / 1; }  /* large photo at the top of the story */
+#story-image .image-box {  /* large photo at the top of the story */
+  width: 100%; aspect-ratio: 2 / 1; --stamp: 64px; --wm-size: 300px;
+  border: 1px solid var(--world, var(--border)); box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5);
+}
 #story h2 { margin-top: 24px; font-size: 2rem; }
 #story-description { max-width: 70ch; font-size: 1.05rem; }
 
@@ -155,10 +261,10 @@ figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 .chapter { display: grid; grid-template-columns: 34px 1fr; gap: 16px; }
 .chapter-num {
   display: grid; place-items: center; width: 34px; height: 34px;
-  border: 2px solid var(--blue); border-radius: 50%; color: var(--blue); font-weight: bold;
+  border: 2px solid var(--world, var(--primary)); border-radius: 50%; color: var(--world, var(--primary)); font-weight: bold;
 }
 .chapter h4 { margin: 3px 0 6px; font-size: 1.15rem; }
-.chapter p { margin: 0; color: #e3e9f8; line-height: 1.75; white-space: pre-line; }
+.chapter p { margin: 0; color: #e8ecf5; line-height: 1.75; white-space: pre-line; }
 #story-chapters .source { max-width: 72ch; }
 
 /* The tour: each stage has its own accent color */
@@ -190,19 +296,19 @@ figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 .tl-item { position: relative; margin-bottom: 22px; }
 .tl-item::before {  /* the dot */
   content: ""; position: absolute; top: 4px; left: -30px; width: 16px; height: 16px;
-  border: 2px solid var(--blue); border-radius: 50%; background: var(--panel);
+  border: 2px solid var(--primary); border-radius: 50%; background: var(--panel);
 }
-.tl-item.key::before { border-color: var(--orange); background: var(--orange); }  /* important moments */
-.tl-date { display: block; color: var(--blue); font-size: 0.9rem; font-weight: bold; }
-.tl-item.key .tl-date { color: var(--orange); }
+.tl-item.key::before { border-color: var(--secondary); background: var(--secondary); }  /* important moments */
+.tl-date { display: block; color: var(--primary); font-size: 0.9rem; font-weight: bold; }
+.tl-item.key .tl-date { color: var(--secondary); }
 .tl-title { display: block; }
 .tl-text { display: block; color: var(--muted); font-size: 0.95rem; }
-.callout { max-width: 65ch; margin: 18px 0; padding: 10px 14px; border-left: 3px solid var(--orange); background: rgba(255, 140, 66, 0.08); }
+.callout { max-width: 65ch; margin: 18px 0; padding: 10px 14px; border-left: 3px solid var(--secondary); background: rgba(255, 255, 255, 0.05); }
 .nav-buttons { display: flex; justify-content: space-between; margin-top: 16px; }
 .more-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 400px)); gap: 16px; }
-.more-grid .image-box { aspect-ratio: 3 / 2; }
+.more-grid .image-box { aspect-ratio: 3 / 2; --stamp: 40px; --wm-size: 220px; }
 .more-grid .wide { grid-column: 1 / -1; }  /* a panorama (wide: true in data.js) uses the full width */
-.more-grid .wide .image-box { aspect-ratio: 3 / 1; }
+.more-grid .wide .image-box { aspect-ratio: 3 / 1; --stamp: 52px; --wm-size: 280px; }
 #story-more:empty { display: none; }
 #sources { margin-top: 28px; }
 .object-nav { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: stretch; margin-top: 28px; }
@@ -210,42 +316,82 @@ figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
   display: block; padding: 12px 16px; background: var(--panel); border: 1px solid var(--border);
   border-radius: 10px; color: var(--text); text-decoration: none;
 }
-.object-nav a:not(.button):hover { border-color: var(--blue); }
-.object-nav small { display: block; color: var(--blue); }
+.object-nav small { display: block; color: var(--primary); }
 .object-nav .next { text-align: right; }
 .object-nav .button { align-self: center; }
-#sources dt { margin-top: 10px; color: var(--blue); font-weight: bold; }
+#sources dt { margin-top: 10px; color: var(--primary); font-weight: bold; }
 #sources dd { margin: 0; color: var(--muted); }
 .source, #sources dd { overflow-wrap: anywhere; }  /* long web addresses wrap on phones */
 
-/* ===== 6. QUIZ ===== */
-.option { display: block; margin: 8px 0; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
-.option:hover { border-color: var(--blue); }
-.option:has(input:checked) { border-color: var(--orange); background: rgba(255, 140, 66, 0.08); }
-.quiz-panel { padding: 24px; border-top: 4px solid var(--orange); }
+/* ===== 8. QUIZ ===== */
+.option {
+  position: relative; display: block; margin: 10px 0; padding: 12px 44px 12px 16px;
+  background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 10px; cursor: pointer;
+}
+.option:has(input:checked) { border-color: var(--primary); background: rgba(94, 234, 212, 0.1); }
+.quiz-panel .option.is-correct { border-color: var(--good); background: rgba(138, 230, 110, 0.12); }
+.quiz-panel .option.is-wrong { border-color: var(--bad); background: rgba(255, 143, 128, 0.12); }
+.option.is-correct::after, .option.is-wrong::after { position: absolute; right: 16px; top: 12px; font-weight: bold; }
+.option.is-correct::after { content: "\2713"; color: var(--good); }  /* check mark */
+.option.is-wrong::after { content: "\2717"; color: var(--bad); }     /* cross */
+.quiz-panel { padding: 24px; border: 1px solid var(--border); border-top: 4px solid var(--primary); box-shadow: 0 0 40px rgba(45, 212, 191, 0.08); }
 .quiz-panel h3 { font-size: 1.3rem; }
-#quiz-bar { height: 100%; background: var(--orange); border-radius: 3px; transition: width 0.3s; }
-.big-score { margin: 8px 0; color: var(--orange); font-size: 3rem; font-weight: bold; line-height: 1; }
-.correct { color: #5fd38d; font-weight: bold; }
-.wrong { color: var(--orange); font-weight: bold; }
+.quiz-panel > .meta:first-child { color: var(--primary); font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; letter-spacing: 0.04em; }
+#quiz-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px; transition: width 0.3s; }
+.big-score { margin: 8px 0; color: var(--primary); font-size: 3.2rem; font-weight: bold; line-height: 1; }
+#feedback.correct, #feedback.wrong { margin: 14px 0; padding: 10px 14px; border-radius: 8px; font-weight: bold; }
+.correct { color: var(--good); }
+.wrong { color: var(--bad); }
+#feedback.correct { border-left: 4px solid var(--good); background: rgba(138, 230, 110, 0.1); }
+#feedback.wrong { border-left: 4px solid var(--bad); background: rgba(255, 143, 128, 0.1); }
+#feedback.correct::before { content: "\2713  "; }
+#feedback.wrong::before { content: "\2717  "; }
 
-/* ===== 7. FOOTER AND SMALL SCREENS ===== */
-.site-footer { margin-top: 40px; padding: 36px 0 28px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.95rem; }
-.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.4fr; gap: 28px; }
+/* ===== 9. FOOTER, FLOATING NEBIX MARK AND HOVER EFFECTS ===== */
+.site-footer { margin-top: 56px; padding: 36px 0 24px; background: var(--bg-2); border-top: 1px solid var(--border); color: var(--muted); font-size: 0.95rem; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 0.8fr 1.3fr; gap: 28px; }
 .footer-grid strong { color: var(--text); }
 .footer-grid p { margin: 6px 0 0; }
+.footer-brand { display: flex; align-items: flex-start; gap: 16px; }
+.footer-brand a { flex: none; display: block; }
+.fine { font-size: 0.85rem; }
 .footer-links { display: flex; flex-direction: column; gap: 6px; }
-.footer-links a { color: var(--muted); text-decoration: none; }
-.footer-links a:hover { color: var(--orange); }
+.footer-links a { padding: 3px 0; color: var(--muted); text-decoration: none; }
+.footer-note { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 0.82rem; }
 
+/* A small NEBIX mark in the lower-right corner. Only on wide screens, where it sits in the empty side margin. */
+body::after {
+  content: ""; display: none; position: fixed; right: 20px; bottom: 20px; width: 56px; aspect-ratio: 620 / 520;
+  background: url(assets/nebix-logo.png) center / contain no-repeat; border-radius: 8px; opacity: 0.55;
+  pointer-events: none; z-index: 30;
+}
+@media (min-width: 1180px) { body::after { display: block; } }
+
+/* Hover effects only on devices that can hover. Touch screens get a small "pressed" effect instead. */
+@media (hover: hover) {
+  button:hover, .button:hover { filter: brightness(1.1); }
+  .nav-links a:hover, .footer-links a:hover { color: var(--text); }
+  .collage a:hover img, .card-image:hover img { filter: brightness(1.1); }
+  .card:hover { border-color: var(--world, var(--primary)); }
+  .option:hover { border-color: var(--primary); }
+  .object-nav a:not(.button):hover { border-color: var(--primary); }
+}
+button:active, .button:active { filter: brightness(0.92); }
+
+/* ===== 10. SMALL SCREENS ===== */
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; gap: 32px; }
   .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
 }
 @media (max-width: 700px) {
   .card { flex-basis: 100%; }
   .hero { padding: 40px 0 36px; }
-  #story-image .image-box { aspect-ratio: 4 / 3; }
+  #story-image .image-box { aspect-ratio: 4 / 3; --stamp: 48px; --wm-size: 240px; }
+  .brand-logo { height: 40px; }
+  .team-logo { height: 100px; }
+  .team-panel { flex-direction: column; align-items: flex-start; }
   .tab { flex-direction: column; gap: 4px; padding: 8px 4px; text-align: center; font-size: 0.8rem; }
   .nav-links { width: 100%; }
   .nav-links a { margin: 0 18px 0 0; }

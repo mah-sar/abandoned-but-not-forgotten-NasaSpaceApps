@@ -124,7 +124,7 @@ const objects = [
       { image: "surveyor-3.jpg",
         caption: "The Surveyor 3 lander on the lunar surface.",
         credit: "NASA",
-        source: "" }   // TODO: add the NASA page this photo came from
+        source: "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/a12_h_48_7121.html" }
     ],
     timelineLocation: "Moon — Oceanus Procellarum (Ocean of Storms)",
     timeline: [
@@ -188,7 +188,7 @@ const objects = [
       { image: "apollo-15.jpg",
         caption: "The Lunar Roving Vehicle on the lunar surface with an astronaut beside it and a mountain in the background.",
         credit: "NASA",
-        source: "" }   // TODO: add the NASA page this photo came from
+        source: "https://science.nasa.gov/resource/apollo-15-on-the-moon/" }
     ],
     timelineLocation: "Moon — Hadley-Apennine region",
     timeline: [
@@ -248,15 +248,14 @@ const objects = [
     stillThere: "Yes, at its last known landing site",
     status: "Viking 1 operated for more than six years. Its communications ended in November 1982 after a faulty command interrupted contact with Earth. Attempts to restore communication were unsuccessful. Its present physical condition has not been directly verified.",
     // Image (the file is in assets/)
-    image: "viking-lander-model.jpg",
-    imageCaption: "A model of a Viking lander on a simulated Martian surface. This photograph was taken on Earth, not on Mars.",
-    imageCredit: "NASA/JPL-Caltech/University of Arizona",
-    imagePosition: "center 30%",
+    image: "viking-1.webp",
+    imageCaption: "The first photograph ever taken from the surface of Mars, captured by Viking 1 shortly after landing. This is a view from the lander, not a photograph of the lander itself.",
+    imageCredit: "NASA/JPL",
     moreImages: [
-      { image: "viking-1.webp",
-        caption: "The first photograph ever taken from the surface of Mars, captured by Viking 1 shortly after landing. This is a view from the lander, not a photograph of the lander itself.",
-        credit: "NASA/JPL",
-        source: "https://science.nasa.gov/photojournal/first-photograph-taken-on-mars-surface/" }
+      { image: "viking-lander-model.jpg",
+        caption: "Model: a model of a Viking lander on a simulated Martian surface. This photograph was taken on Earth, not on Mars.",
+        credit: "NASA/JPL-Caltech/University of Arizona",
+        source: "https://www.jpl.nasa.gov/images/pia09703-viking-lander-model/" }
     ],
     timelineLocation: "Mars — Chryse Planitia",
     timeline: [
@@ -278,7 +277,7 @@ const objects = [
       discovery: "https://science.nasa.gov/astrobiology/missions/viking-project/",
       location: "https://science.nasa.gov/mission/viking-1/",
       research: "https://www.jpl.nasa.gov/missions/viking-1/",
-      image: "https://www.jpl.nasa.gov/images/pia09703-viking-lander-model/",
+      image: "https://science.nasa.gov/photojournal/first-photograph-taken-on-mars-surface/",
       timeline: ["https://science.nasa.gov/mission/viking-1/", "https://science.nasa.gov/mission/viking/"],
       story: ["https://science.nasa.gov/?p=106445", "https://www.jpl.nasa.gov/news/attempts-to-communicate-to-viking-lander-1-concluded/", "https://science.nasa.gov/mission/viking-1/", "https://en.wikipedia.org/wiki/Viking_1"]
     }
@@ -316,22 +315,23 @@ const objects = [
     stillThere: "Yes, at its last known location",
     status: "A severe Mars-wide dust storm reduced sunlight reaching the rover's solar panels in 2018. Its last communication was received on June 10, 2018. After more than a thousand commands to restore contact, NASA officially declared the mission over on February 13, 2019. Its present physical condition has not been directly verified.",
     // Image (the file is in assets/)
-    image: "opportunity-artist-concept.jpg",
-    imageCaption: "An artist's concept of a NASA Mars Exploration Rover on the surface of Mars, the same type of rover as Opportunity. This is an illustration, not a photograph.",
-    imageCredit: "NASA/JPL/Cornell University",
+    image: "PIA18079.jpg",
+    imageCaption: "A self-portrait of Opportunity taken by its panoramic camera in March 2014, after winds had removed much of the dust from its solar panels.",
+    imageCredit: "NASA/JPL-Caltech/Cornell Univ./Arizona State Univ.",
+    imagePosition: "center 40%",
     moreImages: [
       { image: "PIA10229.jpg", wide: true,
         caption: "Opportunity's \"Lyell\" panorama inside Victoria Crater, shown in false color. The rover's own deck and solar panels fill the foreground.",
         credit: "NASA/JPL-Caltech/Cornell University",
         source: "https://photojournal.jpl.nasa.gov/catalog/PIA10229" },
-      { image: "PIA18079.jpg",
-        caption: "A self-portrait of Opportunity taken by its panoramic camera in March 2014, after winds had removed much of the dust from its solar panels.",
-        credit: "NASA/JPL-Caltech/Cornell Univ./Arizona State Univ.",
-        source: "https://science.nasa.gov/photojournal/self-portrait-by-freshly-cleaned-opportunity-mars-rover-in-march-2014" },
       { image: "opportunity.jpg",
         caption: "Opportunity's self-portrait at Perseverance Valley on the slopes of Endeavour Crater, taken during its mission on Mars.",
         credit: "NASA/JPL-Caltech",
-        source: "https://science.nasa.gov/photojournal/opportunitys-first-selfie/" }
+        source: "https://science.nasa.gov/photojournal/opportunitys-first-selfie/" },
+      { image: "opportunity-artist-concept.jpg",
+        caption: "Illustration: an artist's concept of a NASA Mars Exploration Rover on the surface of Mars, the same type of rover as Opportunity. This is an illustration, not a photograph.",
+        credit: "NASA/JPL/Cornell University",
+        source: "https://www.jpl.nasa.gov/images/pia04413-artists-concept-of-rover-on-mars" }
     ],
     timelineLocation: "Mars — Meridiani Planum / Perseverance Valley",
     timeline: [
@@ -353,7 +353,7 @@ const objects = [
       discovery: "https://science.nasa.gov/resource/meridiani-planum-2/",
       location: "https://science.nasa.gov/resource/opportunitys-last-message/",
       research: "https://www.nasa.gov/news-release/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end/",
-      image: "https://www.jpl.nasa.gov/images/pia04413-artists-concept-of-rover-on-mars",
+      image: "https://science.nasa.gov/photojournal/self-portrait-by-freshly-cleaned-opportunity-mars-rover-in-march-2014",
       timeline: ["https://science.nasa.gov/mission/mer-opportunity/", "https://science.nasa.gov/missions/mer/nasas-opportunity-rover-mission-on-mars-comes-to-end/", "https://science.nasa.gov/resource/last-commands-to-opportunity/"],
       story: ["https://www.nasa.gov/image-feature/jpl/pia21494/rovers-landing-hardware-at-eagle-crater-mars", "https://science.nasa.gov/?p=995698", "https://skyandtelescope.org/astronomy-news/opportunity-end-long-road/", "https://science.nasa.gov/mission/mer-opportunity/", "https://www.nasa.gov/news-release/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end/"]
     }
