@@ -78,12 +78,12 @@ const objects = [
     timelineNote: "Dates follow NASA's mission timeline, which uses GMT: the landing is recorded on July 20, and the first lunar surface activity and the ascent-stage liftoff on July 21.",
     sources: {
       mission: "https://www.nasa.gov/history/apollo-11-mission-overview/",
-      discovery: "https://nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html",
+      discovery: "https://www.nasa.gov/history/apollo-11-mission-overview/",
       location: "https://science.nasa.gov/resource/apollo-11-landing-site/",
       research: "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo11info.html",
       image: "https://www.nasa.gov/image-detail/amf-as11-40-5927/",
-      timeline: ["https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_11i_Timeline.htm", "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11ov.html", "https://www.nasa.gov/history/apollo-11-mission-overview/"],
-      story: ["https://science.nasa.gov/resource/apollo-11-plaque/", "https://www.esa.int/ESA_Multimedia/Images/2009/07/The_plaque_on_Eagle_s_landing_leg", "https://www.nasa.gov/?p=168313", "https://www.nasa.gov/history/apollo-11-mission-overview/", "https://science.nasa.gov/resource/apollo-11-landing-site/"]
+      timeline: ["https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_11i_Timeline.htm", "https://www.nasa.gov/history/apollo-11-mission-overview/"],
+      story: ["https://science.nasa.gov/resource/apollo-11-plaque/", "https://www.nasa.gov/?p=168313", "https://www.nasa.gov/history/apollo-11-mission-overview/", "https://science.nasa.gov/resource/apollo-11-landing-site/"]
     }
   },
   // ---------- OBJECT 2 ----------
@@ -279,7 +279,7 @@ const objects = [
       research: "https://www.jpl.nasa.gov/missions/viking-1/",
       image: "https://science.nasa.gov/photojournal/first-photograph-taken-on-mars-surface/",
       timeline: ["https://science.nasa.gov/mission/viking-1/", "https://science.nasa.gov/mission/viking/"],
-      story: ["https://science.nasa.gov/?p=106445", "https://www.jpl.nasa.gov/news/attempts-to-communicate-to-viking-lander-1-concluded/", "https://science.nasa.gov/mission/viking-1/"]
+      story: ["https://science.nasa.gov/?p=106445", "https://www.jpl.nasa.gov/news/attempts-to-communicate-to-viking-lander-1-concluded/", "https://science.nasa.gov/mission/viking-1/", "https://science.nasa.gov/astrobiology/missions/viking-project/"]
     }
   },
   // ---------- OBJECT 5 ----------
