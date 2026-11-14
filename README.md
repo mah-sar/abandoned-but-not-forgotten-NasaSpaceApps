@@ -47,7 +47,7 @@ The website also includes an interactive quiz to test what visitors have learned
 - **GitHub:** Used to store the project files and manage updates.
 - **GitHub Pages:** Used to publish the website online.
 - **NASA websites:** Used as research sources for mission information and photographs.
-- **Claude (AI assistant):** Used to assist with code generation, explanations, debugging, and development ideas.
+- **Claude (AI assistant):** Used to assist with code explanations and debugging.
 
 ## Development Process
 
@@ -65,7 +65,7 @@ We organised the project into separate files to keep the content, design, and fu
 - `script.js` – JavaScript functionality and interactive features.
 - `assets/` – Images and other project assets.
 
-We used Claude as an AI-assisted development tool to help us understand and work with code, generate and improve parts of the website, troubleshoot problems, and explore design ideas. Our team made decisions about the project's concept, research, content, design, and features, and reviewed and adapted the generated code.
+We used Claude as an AI-assisted development tool to help us understand and work with code, Improve parts of the website, troubleshoot problems, Our team made decisions about the project's concept, research, content, design, and features, and reviewed and adapted the generated code.
 
 ## Testing
 
