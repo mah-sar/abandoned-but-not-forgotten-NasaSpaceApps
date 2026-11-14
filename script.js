@@ -50,7 +50,8 @@ function show(value, fallback) {
   return value ? esc(value) : `<span class="empty">${fallback || EMPTY_MESSAGE}</span>`;
 }
 
-
+// Shows a source. Text starting with https:// becomes a clickable link that opens in a new tab.
+// Anything else (for example an image credit) is shown as plain text.
 function sourceLink(text, fallback) {
   if (!/^https?:\/\//.test(text)) {
     return show(text, fallback);
@@ -58,7 +59,9 @@ function sourceLink(text, fallback) {
   return `<a href="${esc(text)}" target="_blank" rel="noopener noreferrer">${esc(text)}</a>`;
 }
 
-
+// Builds an image box. With no image (or a missing file) the placeholder text stays visible.
+// file = file name inside assets/, alt = a description of the photo for screen readers,
+// position = optional crop position such as "center 60%".
 function imageBox(file, alt, position) {
   const style = position ? ` style="object-position: ${esc(position)}"` : "";  // optional crop position
   const img = file
@@ -78,6 +81,7 @@ function getYear(obj) {
   return match ? match[0] : "";
 }
 
+// Like sourceLink, but also accepts a list of sources (for example sources.timeline in data.js).
 function sourceLinks(value, fallback) {
   const list = [].concat(value || []).filter(Boolean);  // one source or a list: always make a list
   if (list.length === 0) {
@@ -86,6 +90,8 @@ function sourceLinks(value, fallback) {
   return list.map(function (item) { return sourceLink(item); }).join("<br>");
 }
 
+// ===== Shared parts: the navigation bar and the footer (the same on all three pages) =====
+// Each page's <body> has data-page="home", "explore" or "quiz", which marks the current link.
 function buildNav() {
   const header = document.getElementById("site-header");
   const current = document.body.dataset.page;

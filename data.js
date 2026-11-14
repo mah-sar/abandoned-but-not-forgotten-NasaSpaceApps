@@ -1,3 +1,23 @@
+// data.js - ALL editable content lives in this file.
+//
+// HOW TO EDIT:
+//  1. Type your text between the quote marks, e.g.   name: "Your text",
+//  2. Keep the quote marks and the comma at the end of every line.
+//  3. Use \n\n inside a text to start a new paragraph.
+//  4. If you need a quote mark inside a text, write \"  (backslash + quote mark).
+//  5. Leave a field empty ("") to show "Content will be added after NASA data collection."
+//  6. Images: put the file in the assets/ folder and type ONLY its file name,
+//     e.g.   image: "my-picture.jpg"
+//  7. Sources: type the full web address (https://...). It becomes a clickable link.
+//  8. moreImages (optional): extra photos shown under the story. Each one needs
+//     image (file name), caption, credit and source. Use moreImages: [] for none.
+//     Add wide: true to a very wide panorama so it is shown across the full width.
+//  9. imagePosition (optional): moves the crop of the main photo, e.g. "center 60%".
+// 10. timeline (Stage 4): a list of events. Each event has date, title, text and (optional)
+//     key: true to highlight an important moment. timelineLocation, timelineHighlight and
+//     timelineNote are optional short texts. sources.timeline is a list of NASA links.
+// 11. story ("The Full Story"): a list of short chapters, each with heading and text (use \n\n for a
+//     new paragraph). sources.story is the list of links the chapters are based on.
 
 const objects = [
   // ---------- OBJECT 1 ----------
@@ -341,6 +361,12 @@ const objects = [
 ];
 
 // ---------- QUIZ QUESTIONS ----------
+// To add a question, copy one block, paste it after the last one (with a comma between blocks).
+//   question:    the question text
+//   options:     exactly four answer options
+//   correct:     number of the correct option: 1, 2, 3 or 4
+//   explanation: shown after the visitor answers
+//   object:      related object (use the same name as in the list above)
 const quizQuestions = [
   {
     question: "Which part of Apollo 11's Eagle Lunar Module was left on the Moon?",
